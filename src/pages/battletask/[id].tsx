@@ -23,6 +23,7 @@ import {
   CardBody,
   Flex,
   SlideFade,
+  Heading,
 } from "@chakra-ui/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
@@ -214,29 +215,38 @@ export const BattleTask: NextPage<forBattleProps> = ({
   };
 
   return (
-   
     <SimpleGrid columns={2} spacingY="10px" py={20}>
       <Toaster />
-      <Stack spacing={6} w={"full"} maxW={"xl"} ml="100">
-        <TimerOfTaskComponent
-          initialAmountSeconds={60 * initialTask.totalMinutes}
-          totalSeconds={totalSeconds}
-          seconds={seconds}
-          minutes={minutes}
-          hours={hours}
-          progressValueOfTimer={progressValueOfTimer}
-          progressStatusOfTimer={progressStatusOfTimer}
-        />
+      <Stack pt={"5%"} spacing={6} w={"full"} maxW={"xl"} ml="10%">
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 20,
+          }}
+        >
+          <TimerOfTaskComponent
+            initialAmountSeconds={60 * initialTask.totalMinutes}
+            totalSeconds={totalSeconds}
+            seconds={seconds}
+            minutes={minutes}
+            hours={hours}
+            progressValueOfTimer={progressValueOfTimer}
+            progressStatusOfTimer={progressStatusOfTimer}
+          />
+        </motion.div>
 
         {menuStatus === "SubtaskMenu" ? (
           <>
             <motion.div
-              initial={{ opacity: 0.5,x:30 }}
-              animate={{ opacity: 1 ,x:0}}
-              exit={{ x:-30 }}
+              initial={{ opacity: 0.5, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ x: -30 }}
               transition={{ duration: 0.5 }}
             >
-              <Stack spacing={"5"} align={"center"}>
+              <Stack pt={"10%"} spacing={"5"} align={"center"}>
                 {subtasks.map((subtask) => (
                   <Card
                     onClick={async () => {
@@ -297,63 +307,63 @@ export const BattleTask: NextPage<forBattleProps> = ({
 
         {menuStatus === "BaseMenu" ? (
           <>
-          <motion.div
-              initial={{ opacity: 0,x:0 }}
-              animate={{ opacity: 1 ,x:30}}
-              exit={{ x:-30 }}
+            <motion.div
+              initial={{ opacity: 0, x: 0 }}
+              animate={{ opacity: 1, x: 30 }}
+              exit={{ x: -30 }}
               transition={{ duration: 0.5 }}
             >
-            <Stack spacing={"5"} align={"center"}>
-              <Card
-                w={"70%"}
-                onClick={() => setMenuStatus("SubtaskMenu")}
-                rounded={"3xl"}
-                _hover={{
-                  bg: "gray.700",
-                  textColor: "white",
-                  borderWidth: "1px",
-                  borderColor: "white",
-                }}
-              >
-                <CardBody>
-                  <Text as={"b"}>サブタスク</Text>
-                </CardBody>
-              </Card>
-              <Card
-                w={"70%"}
-                onClick={backToHome}
-                rounded={"3xl"}
-                _hover={{
-                  bg: "gray.700",
-                  textColor: "white",
-                  borderWidth: "1px",
-                  borderColor: "white",
-                }}
-              >
-                <CardBody>
-                  <Text as={"b"}>
-                    中断する
-                    <Text pl={"2%"} fontSize={"2xs"} display="inline">
-                      ホーム画面に戻ります
+              <Stack pt={"10%"} spacing={"5"} align={"center"}>
+                <Card
+                  w={"70%"}
+                  onClick={() => setMenuStatus("SubtaskMenu")}
+                  rounded={"3xl"}
+                  _hover={{
+                    bg: "gray.700",
+                    textColor: "white",
+                    borderWidth: "1px",
+                    borderColor: "white",
+                  }}
+                >
+                  <CardBody>
+                    <Text as={"b"}>サブタスク</Text>
+                  </CardBody>
+                </Card>
+                <Card
+                  w={"70%"}
+                  onClick={backToHome}
+                  rounded={"3xl"}
+                  _hover={{
+                    bg: "gray.700",
+                    textColor: "white",
+                    borderWidth: "1px",
+                    borderColor: "white",
+                  }}
+                >
+                  <CardBody>
+                    <Text as={"b"}>
+                      中断する
+                      <Text pl={"2%"} fontSize={"2xs"} display="inline">
+                        ホーム画面に戻ります
+                      </Text>
                     </Text>
-                  </Text>
-                </CardBody>
-              </Card>
-              <Card
-                w={"70%"}
-                rounded={"3xl"}
-                _hover={{
-                  bg: "gray.700",
-                  textColor: "white",
-                  borderWidth: "1px",
-                  borderColor: "white",
-                }}
-              >
-                <CardBody>
-                  <Text as={"b"}>回復する（時間を追加する）</Text>
-                </CardBody>
-              </Card>
-            </Stack>
+                  </CardBody>
+                </Card>
+                <Card
+                  w={"70%"}
+                  rounded={"3xl"}
+                  _hover={{
+                    bg: "gray.700",
+                    textColor: "white",
+                    borderWidth: "1px",
+                    borderColor: "white",
+                  }}
+                >
+                  <CardBody>
+                    <Text as={"b"}>回復する（時間を追加する）</Text>
+                  </CardBody>
+                </Card>
+              </Stack>
             </motion.div>
           </>
         ) : (
@@ -442,29 +452,64 @@ export const BattleTask: NextPage<forBattleProps> = ({
         </Popover> */}
       </Stack>
 
-      <VStack spacing={6} w={"full"} maxW={"xl"} ml="100">
-        <Text fontSize={"lg"} as="b">
-          あと
-          <Text as="i" fontSize="4xl" display="inline" pr={2}>
-            {progressValue}
-          </Text>
-          ％です。
-        </Text>
-        <CustomProgressBar
-          value={progressValue}
-          width="full"
-          size="lg"
-          height="25px"
-        />
+      <motion.div
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 500,
+            damping: 20,
+          }}
+        >
+      <VStack
+        pt={"5.5%"}
+        spacing={6}
+        w={"full"}
+        maxW={"xl"}
+        ml="10%"
+        mr={"10%"}
+      >
+        
+          
+          <Box
+            w={"full"}
+            bg="white" // 任意の色を選択
+            pr={10}
+            pb={5}
+            pl={12}
+            display="flex" // Flexコンテナとして設定
+            flexDirection="column" // 子要素を縦に並べる
+            alignItems="center" // 横方向の中央揃え
+            justifyContent="center"
+            rounded={"40"}
+          >
+            <Text fontSize={"lg"} as="b" textAlign={"center"}>
+              あと
+              <Text as="i" fontSize="4xl" display="inline" pr={2}>
+                {progressValue}
+              </Text>
+              ％です。
+            </Text>
+            <CustomProgressBar
+              value={progressValue}
+              width="full"
+              size="lg"
+              height="25px"
+            />
+          </Box>
+       
 
         <Image
-          mt={20}
+          mt={"10%"}
           rounded={20}
           boxSize="300px"
           src={imageurl ?? "defaultImageUrl"}
           alt="monster"
           shadow={"xl"}
         />
+        <Heading pt={"7%"} color={"white"}>
+          {initialTask.title}
+        </Heading>
         <EndOfBattleModal isOpen={isOpen} onClose={onClose} />
         <TimeUpModal
           isOpen={isTimeUpOpen}
@@ -478,8 +523,8 @@ export const BattleTask: NextPage<forBattleProps> = ({
           minutesToAdd={minutesToAdd}
         />
       </VStack>
+      </motion.div>
     </SimpleGrid>
-   
   );
 };
 
