@@ -13,10 +13,6 @@ import { NextRouter, Router, useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { addTimeOptions } from "~/pages/battletask/[id]";
 
-// timetoAddをそもそも更新させちゃえばよくね？
-// やっていること同じやん！強いていえば、モーダルを終了させているぐらい。
-// じゃあTiem toaddもカスタムフックの状態変数も持って来ればよくねえか
-
 type TimeUpModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -42,29 +38,6 @@ export const TimeUpModal = ({
   handleToAddMinutesChange,
   minutesToAdd,
 }: TimeUpModalProps) => {
-
-  
-
-  // const handleSubmit = async () => {
-  //   console.log(time, "延長時のTime");
-  //   console.log(id, "延長時のTaskのID");
-
-  //   try {
-  //     const response = await axios.put(
-  //       `http://localhost:3000/api/tasks/${id}`,
-  //       {
-  //         isOnGoing: true,
-  //         remainingMinutes: time,
-  //       }
-  //     );
-  //     console.log(response.data, "これが分数追加時のデータ");
-
-  //     onClose();
-  //     router.reload();
-  //   } catch (error) {
-  //     console.error("Error updating totalminutes of task:", error);
-  //   }
-  // };
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />

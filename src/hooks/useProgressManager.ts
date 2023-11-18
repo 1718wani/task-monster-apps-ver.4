@@ -21,6 +21,8 @@ export const UseProgressManager = ({
   const [progressStatus, setProgressStatus] =
     useState<ProgressStatus>("neutral");
 
+    console.log(targetProgressValue,"targetProgressValue")
+
   useInterval(
     () => {
       if (progressStatus === "isCountingDown") {

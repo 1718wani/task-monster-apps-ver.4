@@ -49,7 +49,7 @@ export const TimerOfTaskComponent = ({
         <CustomProgressBar
           width={"full"}
           size="lg"
-          height="25px"
+          height="20px"
           // isCountingDownのときだけ、progressValueOfTimerの値が表示される。
           value={( ((progressStatusOfTimer === "isCountingUp")? progressValueOfTimer : totalSeconds) / initialAmountSeconds) * 100}
         />
