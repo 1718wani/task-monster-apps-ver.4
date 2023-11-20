@@ -19,11 +19,16 @@ type TimeUpModalProps = {
   id: string;
   totalSeconds: number;
   setRemainingTotalSeconds: Dispatch<SetStateAction<number>>;
+  setProgrammaticNavigation:(optionMinutes: boolean) => void;
   restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void;
   initialSeconds: number | null;
-  handleToAddMinutesSubmit :(event: React.ChangeEvent<HTMLSelectElement>) => void
-  handleToAddMinutesChange: () => void
-  minutesToAdd:number;
+  handleToAddMinutesSubmit: (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+  handleToAddMinutesChange: () => void;
+  minutesToAdd: number;
+  backToHome:(optionMinutes:number|null)=> Promise<void>
+ 
 };
 
 export const TimeUpModal = ({
@@ -37,7 +42,10 @@ export const TimeUpModal = ({
   handleToAddMinutesSubmit,
   handleToAddMinutesChange,
   minutesToAdd,
+ backToHome,
+ setProgrammaticNavigation
 }: TimeUpModalProps) => {
+  
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
@@ -64,7 +72,14 @@ export const TimeUpModal = ({
           <Button colorScheme="blue" mr={3} onClick={handleToAddMinutesSubmit}>
             {minutesToAdd}分だけ延長する
           </Button>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={async() =>{
+              setProgrammaticNavigation(true)
+              await backToHome(10)
+            }}
+          >
             一度諦める
           </Button>
         </ModalFooter>

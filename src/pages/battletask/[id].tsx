@@ -37,6 +37,7 @@ import { UseProgressManager } from "~/hooks/useProgressManager";
 import { calculateSubtaskPercentage } from "~/util/calculateSubtaskPercentage";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
+import { usePageLeaveSaveRemainingMinutes } from "~/hooks/usePageLeaveSaveRemainingMinutes";
 
 type forBattleProps = {
   initialTask: taskForDisplay;
@@ -61,7 +62,7 @@ export const BattleTask: NextPage<forBattleProps> = ({
   );
   const [minutesToAdd, setMinutesToAdd] = useState<number>(0);
   const [menuStatus, setMenuStatus] = useState<BattleMenuStatus>("BaseMenu");
-  console.log(minutesToAdd, "minutesToAddの時間チェック");
+  const { setProgrammaticNavigation } = usePageLeaveSaveRemainingMinutes();
 
   // remainingMinutesが定義されたらそちらを採用、そうでなければ減った時間のそちらを採用
   const [remainingTotalSeconds, setRemainingTotalSeconds] = useState(
@@ -69,7 +70,7 @@ export const BattleTask: NextPage<forBattleProps> = ({
       ? initialTask.remainingMinutes * 60
       : initialTask.totalMinutes * 60
   );
-  console.log(remainingTotalSeconds, "remainingTotalSecondsの時間チェック");
+
   // useTimerを初期化
   const { totalSeconds, seconds, minutes, hours, pause, restart } = useTimer({
     expiryTimestamp: new Date(
@@ -77,7 +78,6 @@ export const BattleTask: NextPage<forBattleProps> = ({
     ),
     onExpire: () => onTimeUpOpen(),
   });
-  console.log(totalSeconds, "totalSecondsの時間チェック");
 
   const { progressValue, setProgressStatus } = UseProgressManager({
     initialProgressValue: calculateSubtaskPercentage(subtasks),
@@ -109,8 +109,6 @@ export const BattleTask: NextPage<forBattleProps> = ({
       });
     },
   });
-
-  console.log(progressValueOfTimer, "ProgressValueofTimerの状態だ！！！");
 
   const notify = () => toast("サブタスク完了によるこうげき", { icon: "👏" });
   // タスクを全部コンプリートした時のモーダル開閉の状態管理
@@ -156,26 +154,32 @@ export const BattleTask: NextPage<forBattleProps> = ({
 
       // Counting Downを開始する。
       setProgressStatus("isCountingDown");
-
-      console.log(updatedSubtask, "更新されたサブタスク");
     } catch (error) {
       console.error("APIの呼び出しに失敗:", error);
     }
   };
 
-  const backToHome = async () => {
+  const backToHome = async (optionMinutes: number | null) => {
+    setProgrammaticNavigation(true);
     const id = router.query.id;
+    let remainingMinutes = Math.ceil((totalSeconds / 60) ) 
+    // optionMinutesが元々の最大分数より小さい場合
+    if (optionMinutes && initialTask.totalMinutes &&  optionMinutes < initialTask.totalMinutes){
+      remainingMinutes =  optionMinutes
+    }
+    // optionMinutesが元々の最大風数より大きい場合
+    if(optionMinutes && initialTask.totalMinutes &&  optionMinutes > initialTask.totalMinutes ){
+      remainingMinutes = Math.ceil((initialTask.totalMinutes / 2) ) 
+    }
 
     try {
-      const response = await axios.put(
-        `http://localhost:3000/api/tasks/${id}`,
-        {
-          isOnGoing: false,
-          // ここには、totalsecondsが入力されるべき
-          remainingMinutes: Math.ceil((remainingTotalSeconds / 60) * 10) / 10,
-        }
-      );
-      console.log(response.data, "これがタスク更新時のレスポンスデータ");
+      await axios.put(`http://localhost:3000/api/tasks/${id}`, {
+        
+        isOnGoing: false,
+        remainingMinutes:  remainingMinutes
+      });
+
+     
       await router.push("/");
     } catch (error) {
       console.error("Error updating totalminutes of task:", error);
@@ -198,7 +202,6 @@ export const BattleTask: NextPage<forBattleProps> = ({
   const handleToAddMinutesFromMenu = (e: number): void => {
     pause();
     const newRemainingSeconds = totalSeconds + e * 60;
-    console.log(newRemainingSeconds, "これはnewMinutesToAdd");
 
     setMinutesToAdd(e);
 
@@ -446,87 +449,6 @@ export const BattleTask: NextPage<forBattleProps> = ({
         ) : (
           <></>
         )}
-
-        {/*
-          <Stack 
-            key={subtask.id}
-            p="4"
-            boxShadow="lg"
-            m="4"
-            borderRadius="sm"
-            backgroundColor={subtask.isCompleted ? "gray" : ""}
-          >
-            <Stack
-              direction={{ base: "column", md: "row" }}
-              justifyContent="space-between"
-            >
-              <Box fontSize={{ base: "lg" }} textAlign="center" maxW={"4xl"}>
-                {subtask.title}
-              </Box>
-              <Stack direction={{ base: "column", md: "row" }}>
-                <Button variant="outline" colorScheme="green">
-                  延長
-                </Button>
-                <Button
-                  onClick={async () => {
-                    await toggleItemDone(subtask.id); // async/awaitを使っています
-                    notify();
-                  }}
-                  backgroundColor={
-                    subtask.isCompleted ? "green.600" : "green.500"
-                  }
-                >
-                  <Text color={"white"}>
-                    {subtask.isCompleted ? "完了！" : "未完了"}
-                  </Text>
-                </Button>
-                <Toaster />
-              </Stack>
-            </Stack>
-          </Stack>*/}
-
-        {/* <Button onClick={backToHome}>
-          <Text>戦闘を中断する</Text>
-        </Button>
-        <Popover isOpen={popoverIsOpen} onClose={closePopover}>
-          <PopoverTrigger>
-            <Button onClick={openPopover}>体力（残り時間）を回復する</Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader>残り時間を追加しますか？</PopoverHeader>
-
-            <PopoverBody>
-              元々の設定時間を超えた時間には設定できません。
-              <Select onChange={handleToAddMinutesChange}>
-                <option value={0} disabled selected>
-                  選択してください
-                </option>
-                {addTimeOptions.map((option) => (
-                  <option
-                    key={option.value}
-                    disabled={
-                      initialTask.totalMinutes * 60 <
-                      totalSeconds + option.value * 60
-                    }
-                    value={option.value}
-                  >
-                    {option.value}
-                  </option>
-                ))}
-              </Select>
-              <Button
-                colorScheme="blue"
-                mr={3}
-                onClick={handleToAddMinutesSubmit}
-                isDisabled={minutesToAdd === 0}
-              >
-                {minutesToAdd}分だけ延長する
-              </Button>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover> */}
       </Stack>
 
       <motion.div
@@ -590,7 +512,9 @@ export const BattleTask: NextPage<forBattleProps> = ({
             initialSeconds={initialTask.totalMinutes * 60}
             handleToAddMinutesSubmit={handleToAddMinutesSubmit}
             handleToAddMinutesChange={handleToAddMinutesChange}
+            backToHome={backToHome}
             minutesToAdd={minutesToAdd}
+            setProgrammaticNavigation={setProgrammaticNavigation}
           />
         </VStack>
       </motion.div>

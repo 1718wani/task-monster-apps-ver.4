@@ -23,14 +23,13 @@ export default function Layout({ children }) {
   const backgroundStyle = isBattleTask
     ? {
         animate: {
-          
           background: [
             "linear-gradient(45deg, #1A202C, #3182CE)",
             "linear-gradient(45deg, #3182CE, #1A202C)",
             "linear-gradient(45deg, #1A202C, #3182CE)",
+           
           ],
         },
-       
 
         transition: {
           duration: 10,
