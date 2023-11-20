@@ -15,13 +15,16 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     } as ClientType),
-    EmailProvider({
-      server: env.EMAIL_SERVER,
-      from: env.EMAIL_FROM,
-    } as EmailClientType),
+    // EmailProvider({
+    //   server: env.EMAIL_SERVER,
+    //   from: env.EMAIL_FROM,
+    // } as EmailClientType),
   ],
+  pages:{
+    signIn:'/signin',
+  },
   callbacks: {
-    session: async ({ session, token }: { session: Session;token:JWT; user: User })=> {
+    session:  ({ session, token }: { session: Session;token:JWT; user: User })=> {
       session.user.userId = token.sub
       session.user.image = token.picture
       return session;

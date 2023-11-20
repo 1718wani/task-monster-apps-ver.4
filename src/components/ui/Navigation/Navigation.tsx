@@ -188,12 +188,13 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
           />
           <Flex alignItems={"center"}>
             {isLoading && <Spinner />}
-            {!isLoading && data?.customName == null && (
+            {!isLoading && data?.customName == null && session && (
               <>
                 <Modal
                   isOpen={isCustomUserFormOpen}
                   onClose={onCustomUserFormClose}
                   closeOnOverlayClick={false}
+                 
                 >
                   <ModalOverlay />
                   <ModalContent>
