@@ -65,6 +65,8 @@ export const CreateTodo: NextPage = () => {
         isCompleted: false,
       });
 
+      
+
       setApiResponse(response.data);
       console.log(response.data, "これがタスク作成時のレスポンスデータ");
     } catch (error) {
