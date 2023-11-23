@@ -38,7 +38,6 @@ import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
 
 import { signOut, useSession } from "next-auth/react";
 import useSWR, { mutate } from "swr";
-import { fetcher } from "~/components/OngoingBattleComponent";
 import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -46,6 +45,7 @@ import { z } from "zod";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { resourceUsage } from "process";
 import { useState } from "react";
+import { fetcher } from "~/lib/swr-fetcher";
 
 // アイコン画像をログインユーザーによって切り替えたい
 

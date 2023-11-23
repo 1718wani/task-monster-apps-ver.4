@@ -23,14 +23,10 @@ import { useSession } from "next-auth/react";
 import CustomProgressBar from "./ui/ProgressBar/CustomeProgressBar";
 import useSWR from "swr";
 import { customTruncate } from "~/util/customTruncate";
+import { fetcher } from "~/lib/swr-fetcher";
 
 const urlWithUserId = (userId: string | undefined) => {
   return `http://localhost:3000/api/task?getIsOngoing=true`;
-};
-
-export const fetcher = async (input: RequestInfo, init?: RequestInit) => {
-  const res = await fetch(input, init);
-  return res.json();
 };
 
 export const OngoingBattleComponents = () => {
