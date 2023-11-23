@@ -41,9 +41,6 @@ import useSWR, { mutate } from "swr";
 import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { z } from "zod";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { resourceUsage } from "process";
 import { useState } from "react";
 import { fetcher } from "~/lib/swr-fetcher";
 
@@ -51,12 +48,7 @@ import { fetcher } from "~/lib/swr-fetcher";
 
 export const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
-    <Box
-      as="a"
-      href="#"
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
+    <Box style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
       <Flex
         align="center"
         p="4"
@@ -143,7 +135,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       );
       setApiResponse(response.data);
       // SWRキャッシュの更新
-      
+
       console.log(response.data, "レスポンスデータ");
     } catch (error) {
       console.error("ユーザー情報のアップデートに失敗しました", error);
@@ -194,7 +186,6 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   isOpen={isCustomUserFormOpen}
                   onClose={onCustomUserFormClose}
                   closeOnOverlayClick={false}
-                 
                 >
                   <ModalOverlay />
                   <ModalContent>
@@ -333,7 +324,6 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   bg={useColorModeValue("white", "gray.900")}
                   borderColor={useColorModeValue("gray.200", "gray.700")}
                 >
-                 
                   <MenuItem onClick={handleLoguoutBtn}>ログアウト</MenuItem>
                 </MenuList>
               </Menu>
