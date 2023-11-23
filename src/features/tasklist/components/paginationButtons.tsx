@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import type { Task } from "@prisma/client";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -15,22 +15,26 @@ export const PaginationButtons = ({
 }: props) => {
   return (
     <>
-      <Button
-        isDisabled={pageIndex === 0}
-        onClick={() => setPageIndex(pageIndex - 1)}
-      >
-        Previous
-      </Button>
-      <Button
-        isDisabled={
-          nextTasks === null ||
-          nextTasks === undefined ||
-          nextTasks.length === 0
-        }
-        onClick={() => setPageIndex(pageIndex + 1)}
-      >
-        Next
-      </Button>
+      <HStack>
+        <Button
+          colorScheme="teal"
+          isDisabled={pageIndex === 0}
+          onClick={() =>setPageIndex(prevPageIndex => prevPageIndex - 1)}
+        >
+          前へ
+        </Button>
+        <Button
+          colorScheme="teal"
+          isDisabled={
+            nextTasks === null ||
+            nextTasks === undefined ||
+            nextTasks.length === 0
+          }
+          onClick={() => setPageIndex(prevPageIndex => prevPageIndex + 1)}
+        >
+          次へ
+        </Button>
+      </HStack>
     </>
   );
 };

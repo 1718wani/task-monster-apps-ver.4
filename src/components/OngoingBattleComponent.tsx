@@ -79,7 +79,7 @@ export const OngoingBattleComponents = () => {
   return (
     <>
       <Heading size="md" px={4} pt={2} pb={1}>
-        Ongoing Battle
+        とりくみ中
       </Heading>
       <Divider pt={2} />
 
@@ -89,13 +89,14 @@ export const OngoingBattleComponents = () => {
       {tasks.length > 0 &&
         tasks.map((task) => (
           <>
-            <Menu placement="right">
-              <Tooltip label="コメントを送る" aria-label="A tooltip">
+            <Menu placement="top" >
+              <Tooltip label="コメントを送る" aria-label="A tooltip" >
                 <MenuButton
                   as={Button}
                   w={"full"}
                   h={"full"}
                   background={"white"}
+                  zIndex={10}
                 >
                   <HStack pt={2} pb={1} px={4} cursor="pointer">
                     <Avatar size={"md"} src={task.imageData ?? undefined} />
