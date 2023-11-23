@@ -17,6 +17,7 @@ import { NavItem } from "~/components/ui/Navigation/Navigation";
 import { SidebarProps } from "./SidebarType";
 import { LinkItems } from "./SidebarItems";
 import { OngoingBattleComponents } from "~/components/OngoingBattleComponent";
+import Link from "next/link";
 
 export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
@@ -34,17 +35,16 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Task Monster
         </Text>
-        <CloseButton  display={{ base: "flex", md: "none" }} onClick={onClose} />
+        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
+        <Link key={link.name} href={link.href} passHref>
+          <NavItem icon={link.icon}>{link.name}</NavItem>
+        </Link>
       ))}
       <Box mt={10}>
-        <OngoingBattleComponents/>
-      </Box >
-     
+        <OngoingBattleComponents />
+      </Box>
     </Box>
   );
 };
