@@ -3,10 +3,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 import { prisma } from "~/server/db";
 import { z } from "zod";
-import { callApiHandleError } from "~/util/callApiHandleError";
-import { generateImage } from "~/util/generateAiImage";
+import { callApiHandleError } from "~/util/api-related/callApiHandleError";
+import { generateImage } from "~/util/generate-images/generateAiImage";
 import { supabase } from "~/lib/supabaseClient";
-import { uploadAlImageBlobToSupabase } from "~/util/uploadAIImageBlobToSupabase";
+import { uploadAlImageBlobToSupabase } from "~/util/generate-images/uploadAIImageBlobToSupabase";
 import { getToken } from "next-auth/jwt";
 
 // これはTaskの中の最低限必要なフィールドを取得したもの

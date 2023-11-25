@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import type { taskForDisplay } from "~/types/AllTypes";
 import { SendReactionNotification } from "~/notifications/notifications";
 import Pusher from "pusher-js";
 import { useSession } from "next-auth/react";
@@ -24,8 +23,9 @@ import CustomProgressBar from "./ui/ProgressBar/CustomeProgressBar";
 import useSWR from "swr";
 import { customTruncate } from "~/util/customTruncate";
 import { fetcher } from "~/lib/swr-fetcher";
+import type { Task } from "@prisma/client";
 
-const urlWithUserId = (userId: string | undefined) => {
+const urlWithUserId = () => {
   return `http://localhost:3000/api/task?getIsOngoing=true`;
 };
 
@@ -38,7 +38,7 @@ export const OngoingBattleComponents = () => {
     error,
     isLoading,
     
-  } = useSWR<taskForDisplay[], Error>(() => urlWithUserId(userId), fetcher, {
+  } = useSWR<Task[], Error>(() => urlWithUserId(), fetcher, {
     refreshInterval: 10000,
   });
   console.log(tasks, "サイドバーのTasks");

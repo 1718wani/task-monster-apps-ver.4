@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
-import type { subTaskForDisplay } from "~/types/AllTypes";
 import EditableCard from "./ui/Card/EditableCard";
 import NotStartedCard from "./ui/Card/NotStartedCard";
 import OnProgressCard from "./ui/Card/OnProgressCard";
 import IsCompletedCard from "./ui/Card/IsCompletedCard";
+import { SubTask } from "@prisma/client";
 
 interface TodoProps {
   id: number;
@@ -15,7 +14,7 @@ interface TodoProps {
   remainingMinutes: number | null;
   isEditable: boolean;
   enterEditMode: (id: number | null) => void; // 追加
-  subTasks: subTaskForDisplay[];
+  subTasks: SubTask[];
 }
 
 export default function TodoCardComponent({

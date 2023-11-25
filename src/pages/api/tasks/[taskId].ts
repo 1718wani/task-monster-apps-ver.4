@@ -6,7 +6,7 @@ import {
   TotalTimeUpdateSchema,
 } from "~/schemas/zodSchema";
 import { prisma } from "~/server/db";
-import { callApiHandleError } from "~/util/callApiHandleError";
+import { callApiHandleError } from "~/util/api-related/callApiHandleError";
 
 export default async function handler(
   req: NextApiRequest,
@@ -72,7 +72,7 @@ async function handlePutRequest(
   } else if ("totalMinutes" in req.body && "isOnGoing" in req.body) {
     schema = TotalTimeUpdateSchema;
     console.log("totalTimeとisOnGoingが含まれていました");
-  } else if ("remainingMinutes" in req.body && "isOnGoing" in req.body ) {
+  } else if ("remainingMinutes" in req.body && "isOnGoing" in req.body) {
     schema = RemainingTimeUpdateSchema;
     console.log("remainingMinutesが含まれていました");
   } else {

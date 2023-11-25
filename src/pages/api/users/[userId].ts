@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import { prisma } from "~/server/db";
-import { callApiHandleError } from "~/util/callApiHandleError";
-import { generateCustomUserImage } from "~/util/generateCustomUserImage";
-import { uploadAlImageBlobToSupabase } from "~/util/uploadAIImageBlobToSupabase";
+import { callApiHandleError } from "~/util/api-related/callApiHandleError";
+import { generateCustomUserImage } from "~/util/generate-images/generateCustomUserImage";
+import { uploadAlImageBlobToSupabase } from "~/util/generate-images/uploadAIImageBlobToSupabase";
 
 export default async function handler(
   req: NextApiRequest,

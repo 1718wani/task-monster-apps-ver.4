@@ -48,7 +48,12 @@ import { fetcher } from "~/lib/swr-fetcher";
 
 export const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
-    <Box style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
+
+    <Box
+      style={{ textDecoration: "none" }}
+      _focus={{ boxShadow: "none" }}
+    >
+
       <Flex
         align="center"
         p="4"
