@@ -41,9 +41,6 @@ import useSWR, { mutate } from "swr";
 import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { z } from "zod";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { resourceUsage } from "process";
 import { useState } from "react";
 import { fetcher } from "~/lib/swr-fetcher";
 
@@ -52,8 +49,6 @@ import { fetcher } from "~/lib/swr-fetcher";
 export const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
     <Box
-      as="a"
-      href="#"
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >

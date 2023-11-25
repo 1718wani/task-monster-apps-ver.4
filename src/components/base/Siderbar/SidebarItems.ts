@@ -9,5 +9,5 @@ export const LinkItems: Array<LinkItemProps> = [
     { name: 'あなたの', icon: FiHome, href: pagesPath.$url().pathname },
     { name: 'みんなの', icon: BsPeopleFill, href:pagesPath.publictasks.$url().pathname   },
     { name: 'いっしょに', icon:GiBattleAxe, href: "" },
-    { name: 'ふりかえる', icon: VscGraph, href:  "" },
+    { name: 'ふりかえる', icon: VscGraph, href:  pagesPath.statistics.$url().pathname },
   ]

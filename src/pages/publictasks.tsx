@@ -1,7 +1,5 @@
-import { Box, Spinner } from "@chakra-ui/react";
-import { Task } from "@prisma/client";
 import type { NextPage } from "next";
-import { Publictasks } from "~/features/tasklist/page-components/my-tasks";
+import { Publictasks } from "~/features/tasklist/page-components/public-tasks";
 
 const PublicTasksPage: NextPage = (props) => {
   return(
