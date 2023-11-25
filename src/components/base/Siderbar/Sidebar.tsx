@@ -14,7 +14,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { NavItem } from "~/components/ui/Navigation/Navigation";
-import { SidebarProps } from "./SidebarType";
+import type { SidebarProps } from "./SidebarType";
 import { LinkItems } from "./SidebarItems";
 import { OngoingBattleComponents } from "~/components/OngoingBattleComponent";
 import Link from "next/link";
