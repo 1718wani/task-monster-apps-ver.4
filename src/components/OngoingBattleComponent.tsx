@@ -41,7 +41,6 @@ export const OngoingBattleComponents = () => {
   } = useSWR<Task[], Error>(() => urlWithUserId(), fetcher, {
     refreshInterval: 10000,
   });
-  console.log(tasks, "サイドバーのTasks");
 
   useEffect(() => {
     const key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY;
@@ -89,7 +88,7 @@ export const OngoingBattleComponents = () => {
       {tasks.length > 0 &&
         tasks.map((task) => (
           <>
-            <Menu placement="top" >
+            <Menu key={task.id} placement="top" >
               <Tooltip label="コメントを送る" aria-label="A tooltip" >
                 <MenuButton
                   as={Button}

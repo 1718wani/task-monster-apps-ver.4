@@ -1,13 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./auth/[...nextauth]";
 import { prisma } from "~/server/db";
 import { z } from "zod";
 import { callApiHandleError } from "~/util/api-related/callApiHandleError";
 import { generateImage } from "~/util/generate-images/generateAiImage";
-import { supabase } from "~/lib/supabaseClient";
 import { uploadAlImageBlobToSupabase } from "~/util/generate-images/uploadAIImageBlobToSupabase";
 import { getToken } from "next-auth/jwt";
+import { limiter } from "~/lib/rateLimiter";
 
 // これはTaskの中の最低限必要なフィールドを取得したもの
 const CreateTaskSchema = z.object({
@@ -50,7 +48,7 @@ export default async function handler(
             res.status(400).json({ error: "Invalid query parameters" });
           }
 
-          //TODO クエリごとにそもそも取得する
+         
           const tasks = await prisma.task.findMany({
             where: whereClause,
             orderBy: { id: "desc" },
@@ -66,6 +64,20 @@ export default async function handler(
           const postData = CreateTaskSchema.safeParse(req.body);
           if (!postData.success) {
             res.status(400).json({ error: "Invalid data" });
+            return;
+          }
+
+          try {
+            if (userId !== undefined) {
+              await limiter.check(
+                30,
+                userId,
+                `generateTaskImage${token.sub}`,
+                1000 * 60 * 60 * 12
+              );
+            } // 同一アカウントからのタスク作成は10回まで
+          } catch (error) {
+            res.status(429).json({ error: "タスク作成の上限に達しました" });
             return;
           }
 
