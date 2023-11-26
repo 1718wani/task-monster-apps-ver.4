@@ -1,6 +1,5 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
-  Badge,
   Box,
   Button,
   Center,
@@ -9,17 +8,15 @@ import {
   Image,
   Input,
   Stack,
-  Text,
   Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useAtom, useSetAtom } from "jotai";
-import { useEffect, useState } from "react";
-import { Control, Controller, useForm } from "react-hook-form";
-import toast, { Toaster } from 'react-hot-toast';
+import { useAtom, } from "jotai";
+import {Controller, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { HomeTasksAtom } from "~/atoms/atom";
-import { formInputs } from "~/pages/createtodo";
+import type { formInputs } from "~/pages/createtodo";
 import type { responseDisplay, taskForDisplay } from "~/types/AllTypes";
 
 export interface EditableComponentProps {
@@ -38,7 +35,6 @@ export const EditableCard = ({
   detail,
 }: EditableComponentProps) => {
   const [tasksState, setTasksState] = useAtom(HomeTasksAtom);
-  // const [updatedTask, setUpdatedTask] = useState<taskForDisplay>();
 
   const convertToTaskForDisplay = (data: responseDisplay): taskForDisplay => {
     return {
@@ -84,10 +80,8 @@ export const EditableCard = ({
           task.id === updatedTask.id ? updatedTask : task
         )
       );
-      console.log(updatedTask, "UpdateTask");
-      console.log(response.data, "これがタスク更新時のレスポンスデータ");
     } catch (error) {
-      console.error("Error updating task:", error);
+      console.error(error, "このエラーが原因です。");
     }
     enterEditMode(null);
   };
@@ -98,45 +92,51 @@ export const EditableCard = ({
       await axios.delete(`http://localhost:3000/api/tasks/${taskId}`);
       console.log(`Task with id ${taskId} deleted successfully.`);
     } catch (error) {
-      console.error('Error deleting task:', error);
+      console.error("Error deleting task:", error);
     }
   };
 
-  const handleTaskDiscard = async (taskId:number) => {
+  const handleTaskDiscard = (taskId: number) => {
     // ローカルステートからタスクを削除
-    setTasksState((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-    toast(
+    setTasksState((prevTasks) =>
+      prevTasks.filter((task) => task.id !== taskId)
+    );
+    const toastId = toast(
       (t) => (
         <Box>
           <span>削除しました</span>
-          <Button  textColor={"GrayText"} fontSize={"sm"} fontWeight={2} pl={2} variant={"unstyled"} onClick={() => {
+          <Button textColor={"GrayText"} fontSize={"sm"} fontWeight={2} pl={2} variant={"unstyled"} onClick={() => {
             toast.dismiss(t.id);
             setTasksState(tasksState); // 元に戻す
+            clearTimeout(timerId); // タイマーをクリア
           }}>
-            取り消す
+            削除取り消し
           </Button>
-          </Box>
+        </Box>
       ),
       {
         duration: 4500, // 4.5秒後に消える
-        onClose: () => deleteTask(taskId), // トーストが消えたら削除処理
       }
     );
-
-    // APIを呼び出してデータベースからもタスクを削除
-    try {
-      await axios.delete(`http://localhost:3000/api/tasks/${taskId}`);
-      console.log(`Task with id ${taskId} deleted successfully.`);
-    } catch (error) {
-      console.error('Error deleting task:', error);
-    }
+    
+    // トーストが閉じたときに削除処理を実行する
+  const timerId = setTimeout(() => {
+    deleteTask(taskId)
+      .then(() => {
+        toast.dismiss(toastId); // トーストを閉じる
+      })
+      .catch((error) => {
+        // エラーハンドリングをここに追加
+        console.error("Task deletion failed:", error);
+      });
+  }, 4500);
   };
 
   console.log(tasksState, "これがタスク更新時のステート");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-       <Toaster />
+      <Toaster />
       <Center py={6}>
         <Stack
           borderWidth="1px"
@@ -232,7 +232,7 @@ export const EditableCard = ({
                 aria-label="Delete Task"
                 fontSize="14px"
                 colorScheme="red"
-                onClick={() => handleTaskDiscard(id)}
+                onClick={() =>handleTaskDiscard(id)}
                 icon={<DeleteIcon />}
               />
             </Stack>
@@ -240,7 +240,6 @@ export const EditableCard = ({
         </Stack>
       </Center>
     </form>
-    
   );
 };
 

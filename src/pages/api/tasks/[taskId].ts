@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import {
   ContentUpdateSchema,
   PublishUpdateSchema,
@@ -38,6 +38,7 @@ export default async function handler(
         break;
 
       case "PUT":
+        
         await handlePutRequest(req, res, taskId);
         break;
 

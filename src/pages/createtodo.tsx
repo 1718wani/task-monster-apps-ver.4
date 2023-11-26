@@ -11,7 +11,6 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Progress,
   Image,
@@ -22,15 +21,15 @@ import {
   Stack,
   SlideFade,
 } from "@chakra-ui/react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
-import { RegisterationFailureNotification } from "~/notifications/notifications";
 import { useSession } from "next-auth/react";
 import { taskValidation } from "~/schemas/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { NextPage } from "next";
+import type { NextApiResponse, NextPage } from "next";
 import { useState } from "react";
-import { Task } from "@prisma/client";
+import type { Task } from "@prisma/client";
+import toast from "react-hot-toast";
 
 export type formInputs = {
   taskTitle: string;
@@ -70,8 +69,23 @@ export const CreateTodo: NextPage = () => {
       setApiResponse(response.data);
       console.log(response.data, "これがタスク作成時のレスポンスデータ");
     } catch (error) {
-      console.error("Error creating task:", error);
-      RegisterationFailureNotification();
+      if (axios.isAxiosError(error) && error.response) {
+        const status = error.response.status;
+        const message = (error.response.data.error ? error.response.data.error  :  "不明なエラーが発生しました") 
+    
+        if (status === 429) {
+          // 429 エラーの場合の処理
+          console.error("Ratelimit error:", message);
+          toast.error(message)
+          onClose()
+        } else {
+          // その他のエラー処理
+          console.error("Error updating task:", error);
+        }
+      } else {
+        // エラーオブジェクトが axios エラーではない場合の処理
+        console.error("Error updating task:", error);
+      }
     }
   };
 
