@@ -30,7 +30,7 @@ import { useRouter } from "next/router";
 import { TimeUpModal } from "~/components/TimeUpModal";
 import CustomProgressBar from "~/components/ui/ProgressBar/CustomeProgressBar";
 import { useInterval } from "usehooks-ts";
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/db";
 import { Prisma } from "@prisma/client";
 import { useTimer } from "react-timer-hook";
 import { UseProgressManager } from "~/hooks/useProgressManager";
@@ -162,24 +162,30 @@ export const BattleTask: NextPage<forBattleProps> = ({
   const backToHome = async (optionMinutes: number | null) => {
     setProgrammaticNavigation(true);
     const id = router.query.id;
-    let remainingMinutes = Math.ceil((totalSeconds / 60) ) 
+    let remainingMinutes = Math.ceil(totalSeconds / 60);
     // optionMinutesが元々の最大分数より小さい場合
-    if (optionMinutes && initialTask.totalMinutes &&  optionMinutes < initialTask.totalMinutes){
-      remainingMinutes =  optionMinutes
+    if (
+      optionMinutes &&
+      initialTask.totalMinutes &&
+      optionMinutes < initialTask.totalMinutes
+    ) {
+      remainingMinutes = optionMinutes;
     }
     // optionMinutesが元々の最大風数より大きい場合
-    if(optionMinutes && initialTask.totalMinutes &&  optionMinutes > initialTask.totalMinutes ){
-      remainingMinutes = Math.ceil((initialTask.totalMinutes / 2) ) 
+    if (
+      optionMinutes &&
+      initialTask.totalMinutes &&
+      optionMinutes > initialTask.totalMinutes
+    ) {
+      remainingMinutes = Math.ceil(initialTask.totalMinutes / 2);
     }
 
     try {
       await axios.put(`http://localhost:3000/api/tasks/${id}`, {
-        
         isOnGoing: false,
-        remainingMinutes:  remainingMinutes
+        remainingMinutes: remainingMinutes,
       });
 
-     
       await router.push("/");
     } catch (error) {
       console.error("Error updating totalminutes of task:", error);

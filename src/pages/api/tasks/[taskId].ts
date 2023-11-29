@@ -5,7 +5,7 @@ import {
   RemainingTimeUpdateSchema,
   TotalTimeUpdateSchema,
 } from "~/schemas/zodSchema";
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/db";
 import { callApiHandleError } from "~/util/api-related/callApiHandleError";
 
 export default async function handler(
@@ -38,7 +38,6 @@ export default async function handler(
         break;
 
       case "PUT":
-        
         await handlePutRequest(req, res, taskId);
         break;
 

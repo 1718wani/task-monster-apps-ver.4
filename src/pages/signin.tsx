@@ -3,7 +3,6 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
 import { FcGoogle } from "react-icons/fc";
 
 import { getToken } from "next-auth/jwt";
@@ -16,9 +15,7 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 
 export default function SignIn({
@@ -35,15 +32,17 @@ export default function SignIn({
             onClose={onClose}
             closeOnOverlayClick={false}
           >
-            <ModalOverlay
-              bg="blackAlpha.300"
-              backdropFilter="blur(10px) "
-            />
+            <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px) " />
             <ModalContent>
               <ModalHeader>ログインしてね</ModalHeader>
 
               <ModalBody>
-                <Button  onClick={() => signIn(provider.id)} w={"full"} variant={"outline"} leftIcon={<FcGoogle />}>
+                <Button
+                  onClick={() => signIn(provider.id)}
+                  w={"full"}
+                  variant={"outline"}
+                  leftIcon={<FcGoogle />}
+                >
                   <Center>
                     <Text>Sign in with Google</Text>
                   </Center>

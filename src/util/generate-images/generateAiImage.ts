@@ -19,10 +19,10 @@ export async function generateImage() :Promise<Buffer>{
   const cr = new Computerender(process.env.COM_RENDER_KEY);
   const params = {
     prompt:
-      // "white background,Hyperrealistic,Unreal Engine, 8K, Ultra-High Definition, highest quality, High quality texture,realistic photo,full body,white background, mythical beast",
-      getRandomElementFromArray(promptsCollection),
-    // seed: 7777,
-    seed: randomInt,
+      "white background,Hyperrealistic,Unreal Engine, 8K, Ultra-High Definition, highest quality, High quality texture,realistic photo,full body,white background, mythical beast",
+      // getRandomElementFromArray(promptsCollection),
+    seed: 7777,
+    // seed: randomInt,
   };
 
   try {

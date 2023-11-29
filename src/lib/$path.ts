@@ -12,8 +12,8 @@ export const pagesPath = {
       $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/createsubtask/[id]' as const, query: { id }, hash: url?.hash })
     })
   },
-  "createtodo": {
-    $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/createtodo' as const, hash: url?.hash })
+  "createtask": {
+    $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/createtask' as const, hash: url?.hash })
   },
   "login": {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/login' as const, hash: url?.hash })

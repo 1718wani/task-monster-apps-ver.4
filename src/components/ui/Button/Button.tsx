@@ -1,7 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { FaSearchengin } from "react-icons/fa";
-import { useRouter } from "next/router";
-import { CreateNewMonsterButtonComponentProps } from "./ButtonType";
+import type { CreateNewMonsterButtonComponentProps } from "./ButtonType";
 
 export const CreateNewMonsterButtonComponent  : React.FC< CreateNewMonsterButtonComponentProps  > = ({ onClick }) => {
   return (
