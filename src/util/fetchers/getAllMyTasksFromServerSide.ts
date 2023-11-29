@@ -1,7 +1,7 @@
-import { Task } from "@prisma/client";
-import { GetServerSidePropsContext } from "next";
+import type { Task } from "@prisma/client";
+import type { GetServerSidePropsContext } from "next";
 import { getToken } from "next-auth/jwt";
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/db";
 
 export const getAllMyTasksFromServerSide = async (
   context: GetServerSidePropsContext
@@ -20,12 +20,12 @@ export const getAllMyTasksFromServerSide = async (
       },
       orderBy: { id: "desc" },
       include: {
-        subTasks: true, 
+        subTasks: true,
       },
     });
   } catch (error) {
     console.error("自分のタスク一覧の呼び出しに失敗:", error);
   }
 
-  return tasks
+  return tasks;
 };

@@ -1,24 +1,21 @@
 import {
   Badge,
   Box,
-  Button,
   Center,
   Flex,
   Heading,
   Image,
-  Progress,
   Stack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { EditableComponentProps } from "./EditableCard";
+import type { EditableComponentProps } from "./EditableCard";
 import { customTruncate } from "~/util/customTruncate";
 
 export const IsCompletedCard = ({
   title,
   detail,
   imageData,
-  enterEditMode,
 }: EditableComponentProps) => {
   return (
     <Center py={6}>

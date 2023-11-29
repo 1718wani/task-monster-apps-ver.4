@@ -4,10 +4,9 @@ import type {
   GetServerSidePropsContext,
   NextPage,
 } from "next";
-
 import { Statistics } from "~/features/statistics/page-components";
-
 import { getAllMyTasksFromServerSide } from "~/util/fetchers/getAllMyTasksFromServerSide";
+
 type StatisticsPageProps = {
   data: Task[];
 };

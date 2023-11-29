@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/db";
 import { rateLimit } from "~/util/api-related/rate-limit";
 
 const limiter = rateLimit();
@@ -11,8 +11,6 @@ export default async function handler(
 ) {
   const page = parseInt(req.query.page as string) || 0; // デフォルトは0ページ目
   const limit = parseInt(req.query.limit as string) || 9; // デフォルトは10件
-
- 
 
   try {
     const items = await prisma.task.findMany({

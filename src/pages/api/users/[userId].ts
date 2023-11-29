@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/db";
 import { callApiHandleError } from "~/util/api-related/callApiHandleError";
 import { generateCustomUserImage } from "~/util/generate-images/generateCustomUserImage";
 import { uploadAlImageBlobToSupabase } from "~/util/generate-images/uploadAIImageBlobToSupabase";

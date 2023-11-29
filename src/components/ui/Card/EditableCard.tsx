@@ -16,7 +16,7 @@ import { useAtom, } from "jotai";
 import {Controller, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { HomeTasksAtom } from "~/atoms/atom";
-import type { formInputs } from "~/pages/createtodo";
+import type { formInputs } from "~/pages/createtask";
 import type { responseDisplay, taskForDisplay } from "~/types/AllTypes";
 
 export interface EditableComponentProps {

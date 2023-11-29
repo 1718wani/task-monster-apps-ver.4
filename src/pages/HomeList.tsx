@@ -8,22 +8,19 @@ import {
   ModalHeader,
   ModalBody,
   Center,
-  Spinner,
-  VStack,
   Text,
-  Box,
 } from "@chakra-ui/react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Tabs, TabList, Tab } from "@chakra-ui/react";
 import TodoCardComponent from "~/components/TodoCardComponent";
-import { motion } from "framer-motion";
 
 import { useRouter } from "next/router";
 import { CreateNewMonsterButtonComponent } from "~/components/ui/Button/Button";
 import { signIn, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NotificationReceiverComponent } from "~/components/NotificationReceiverComponent";
 import type { HomeProps } from ".";
-import { taskForDisplay } from "~/types/AllTypes";
+import { type taskForDisplay } from "~/types/AllTypes";
+import { pagesPath } from "~/lib/$path";
 
 export default function HomeList({ tasks }: HomeProps) {
   const originalDisplayedTasks = tasks;
@@ -56,7 +53,7 @@ export default function HomeList({ tasks }: HomeProps) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const clickHandler = async () => {
-    await router.push("/createtodo");
+    await router.push(pagesPath.createtask.$url().pathname);
   };
   const enterEditMode = (taskId: number | null) => {
     setEditableTaskId(taskId);

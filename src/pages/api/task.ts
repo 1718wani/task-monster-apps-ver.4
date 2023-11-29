@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/db";
 import { z } from "zod";
 import { callApiHandleError } from "~/util/api-related/callApiHandleError";
 import { generateImage } from "~/util/generate-images/generateAiImage";
@@ -48,7 +48,6 @@ export default async function handler(
             res.status(400).json({ error: "Invalid query parameters" });
           }
 
-         
           const tasks = await prisma.task.findMany({
             where: whereClause,
             orderBy: { id: "desc" },
