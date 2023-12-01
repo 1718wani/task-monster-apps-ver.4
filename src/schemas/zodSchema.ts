@@ -45,10 +45,10 @@ const minofValidation = z.union([
   
 
 export const subTaskValidation = z.object({
-  tasks: z.array(
+  subTasks: z.array(
     z.object({
-      subtask: z.string().min(1,"必須項目です。"),
-      minof: minofValidation,
+      subTaskTitle: z.string().min(1,"必須項目です。"),
+      estimatedMinutes: minofValidation,
     })
   ),
 });

@@ -1,4 +1,4 @@
-import { TodoFormData } from "~/types/AllTypes";
+import { type TodoFormData } from "~/types/AllTypes";
 
 export const validateTaskInput = (
   data: Partial<TodoFormData>
