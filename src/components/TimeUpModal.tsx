@@ -8,9 +8,7 @@ import {
   Button,
   Select,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { NextRouter, Router, useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import { addTimeOptions } from "~/pages/battletask/[id]";
 
 type TimeUpModalProps = {
@@ -19,7 +17,7 @@ type TimeUpModalProps = {
   id: string;
   totalSeconds: number;
   setRemainingTotalSeconds: Dispatch<SetStateAction<number>>;
-  setProgrammaticNavigation:(optionMinutes: boolean) => void;
+  setProgrammaticNavigation: (optionMinutes: boolean) => void;
   restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void;
   initialSeconds: number | null;
   handleToAddMinutesSubmit: (
@@ -27,8 +25,7 @@ type TimeUpModalProps = {
   ) => void;
   handleToAddMinutesChange: () => void;
   minutesToAdd: number;
-  backToHome:(optionMinutes:number|null)=> Promise<void>
- 
+  backToHome: (optionMinutes: number | null) => Promise<void>;
 };
 
 export const TimeUpModal = ({
@@ -42,10 +39,9 @@ export const TimeUpModal = ({
   handleToAddMinutesSubmit,
   handleToAddMinutesChange,
   minutesToAdd,
- backToHome,
- setProgrammaticNavigation
+  backToHome,
+  setProgrammaticNavigation,
 }: TimeUpModalProps) => {
-  
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
@@ -75,9 +71,9 @@ export const TimeUpModal = ({
           <Button
             colorScheme="blue"
             mr={3}
-            onClick={async() =>{
-              setProgrammaticNavigation(true)
-              await backToHome(10)
+            onClick={async () => {
+              setProgrammaticNavigation(true);
+              await backToHome(10);
             }}
           >
             一度諦める

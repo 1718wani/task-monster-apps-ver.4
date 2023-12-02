@@ -3,7 +3,6 @@ import {
   Divider,
   HStack,
   Heading,
-  Progress,
   Stack,
   Button,
   Tooltip,
@@ -14,8 +13,8 @@ import {
   Spinner,
   Box,
 } from "@chakra-ui/react";
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 import { SendReactionNotification } from "~/notifications/notifications";
 import Pusher from "pusher-js";
 import { useSession } from "next-auth/react";
@@ -37,7 +36,6 @@ export const OngoingBattleComponents = () => {
     data: tasks = [],
     error,
     isLoading,
-    
   } = useSWR<Task[], Error>(() => urlWithUserId(), fetcher, {
     refreshInterval: 10000,
   });
@@ -88,8 +86,8 @@ export const OngoingBattleComponents = () => {
       {tasks.length > 0 &&
         tasks.map((task) => (
           <>
-            <Menu key={task.id} placement="top" >
-              <Tooltip label="コメントを送る" aria-label="A tooltip" >
+            <Menu key={task.id} placement="top">
+              <Tooltip label="コメントを送る" aria-label="A tooltip">
                 <MenuButton
                   as={Button}
                   w={"full"}
@@ -101,7 +99,9 @@ export const OngoingBattleComponents = () => {
                     <Avatar size={"md"} src={task.imageData ?? undefined} />
 
                     <Stack width={"full"}>
-                      <Heading  size="xs">{ customTruncate (task.title,9)}</Heading>
+                      <Heading size="xs">
+                        {customTruncate(task.title, 9)}
+                      </Heading>
 
                       <CustomProgressBar
                         w={"full"}
