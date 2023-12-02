@@ -12,38 +12,40 @@ type onSubmitSubTaskType = {
 
 type extendedSubtaskFormProps = onSubmitSubTaskType & subTaskReactHookFormType;
 
-export const SubTasksFormComponent = (props: extendedSubtaskFormProps) => {
+export const SubTasksFormComponent = (subTasksForm: extendedSubtaskFormProps) => {
   const handleInputChange = () => {
-    const currentTasks = props.getValues().subTasks;
+    const currentTasks = subTasksForm.getValues().subTasks;
     currentTasks.push({ subTaskTitle: "", estimatedMinutes: 15 });
-    props.setValue("subTasks", currentTasks);
+    subTasksForm.setValue("subTasks", currentTasks);
   };
 
   const handleItemDiscard = (index: number) => {
-    const currentTasks: subTaskInputType[] = props.getValues().subTasks;
+    const currentTasks: subTaskInputType[] = subTasksForm.getValues().subTasks;
     currentTasks.splice(index, 1);
-    props.setValue("subTasks", currentTasks);
+    subTasksForm.setValue("subTasks", currentTasks);
   };
+
+  console.log(subTasksForm.getValues("subTasks"),"配列？")
 
   return (
     <>
-      <form onSubmit={props.handleSubmit(props.onSubmit)}>
-        {props.watch("subTasks").map((subTask, index) => (
+      <form onSubmit={subTasksForm.handleSubmit(subTasksForm.onSubmit)}>
+        {subTasksForm.getValues("subTasks").map((subTask, index) => (
           <SubTaskItemCard
             key={index}
             subTask={subTask}
             index={index}
             handleItemDiscard={handleItemDiscard}
-            {...props}
+            {...subTasksForm}
           />
         ))}
 
-        {props.watch("subTasks").length < 8 && (
+        {subTasksForm.getValues("subTasks").length < 8 && (
           <AddSubTaskCard handleInputChange={handleInputChange} />
         )}
 
         <HStack pt={"5%"} spacing={6}>
-          <SubmitOrBackButtons props={props} />
+          <SubmitOrBackButtons props={subTasksForm} />
         </HStack>
       </form>
     </>

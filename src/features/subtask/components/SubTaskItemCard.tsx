@@ -32,7 +32,9 @@ import {
     control,
     errors,
     watch,
+    getValues,
   }: SubTaskCardProps) => {
+  
     return (
       <Card rounded="30" mt={5}>
         <CardBody>
@@ -76,7 +78,9 @@ import {
                   <NumberInput
                     id={`estimatedMinutes${index}`}
                     step={5}
-                    onChange={(valueString) => field.onChange(parseInt(valueString, 10))}
+                    onChange={(valueString) =>
+                      field.onChange(valueString === "" ? "" : parseInt(valueString, 10))
+                    }
                     value={field.value}
                     border={"white"}
                   >
@@ -93,8 +97,8 @@ import {
               </FormErrorMessage>
             </FormControl>
   
-            {/* 削除ボタン */}
-            {watch("subTasks").length >= 4 && (
+            {/* 削除ボタンはsubTasksが4個以上のときのみ表示 */}
+            {getValues("subTasks").length >= 4 && (
               <IconButton
                 m={2}
                 size={"xs"}

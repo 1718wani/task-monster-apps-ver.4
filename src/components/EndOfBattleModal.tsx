@@ -5,27 +5,17 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  useDisclosure,
   Button,
   FormControl,
   FormLabel,
   Input,
-  Box,
   Text,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Toaster } from "react-hot-toast";
-import {
-  CompleteBattleSuccess,
-  RegisterationSuccessNotification,
-} from "~/notifications/notifications";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { PublishUpdateSchema } from "~/schemas/zodSchema";
+import { CompleteBattleSuccess } from "~/notifications/notifications";
 
 type publicApiFormInputs = {
   publishedTitle: string;
@@ -58,12 +48,12 @@ export const EndOfBattleModal = ({ isOpen, onClose }) => {
         `http://localhost:3000/api/tasks/${id}`,
         {
           isPublished: true,
-          isCompleted:true,
+          isCompleted: true,
           ...formData,
         }
       );
 
-      console.log(response.data,"完了時のresponse.data");
+      console.log(response.data, "完了時のresponse.data");
 
       await router.push("/");
       CompleteBattleSuccess();
@@ -94,13 +84,12 @@ export const EndOfBattleModal = ({ isOpen, onClose }) => {
 
         <form onSubmit={onSubmit}>
           <ModalContent>
-          <ModalHeader>討伐完了です！おめでとうございます！</ModalHeader>
+            <ModalHeader>討伐完了です！おめでとうございます！</ModalHeader>
             <ModalBody pb={6}>
-             <Text fontSize={"sm"} mb={4}>
+              <Text fontSize={"sm"} mb={4}>
                 この討伐を公開することで、他のユーザーがこの討伐を参考にできるようになります。
                 ※ この討伐を公開しても元のタスクのタイトルは公開されません。
-
-             </Text>
+              </Text>
 
               <FormControl>
                 <FormLabel>公開するモンスターの名前</FormLabel>
