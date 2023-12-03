@@ -1,0 +1,1 @@
+export {BattleTask} from "./page";

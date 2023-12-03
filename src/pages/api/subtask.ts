@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/db";
 
 interface ExtendedNextApiRequestAtSubtask extends NextApiRequest {
   body: {
@@ -48,7 +48,7 @@ export default async function handler(
       break;
     case "PUT":
       if (subTaskId) {
-        console.log(subTaskId, "subTaskIdの値")
+        console.log(subTaskId, "subTaskIdの値");
         const updatedSubTask = await prisma.subTask.update({
           where: { id: Number(subTaskId) },
           data: { isCompleted: isCompleted },

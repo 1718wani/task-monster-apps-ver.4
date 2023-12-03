@@ -3,7 +3,6 @@ import {
   Divider,
   HStack,
   Heading,
-  Progress,
   Stack,
   Button,
   Tooltip,
@@ -14,23 +13,19 @@ import {
   Spinner,
   Box,
 } from "@chakra-ui/react";
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
-import type { taskForDisplay } from "~/types/AllTypes";
+import axios from "axios";
+import { useEffect } from "react";
 import { SendReactionNotification } from "~/notifications/notifications";
 import Pusher from "pusher-js";
 import { useSession } from "next-auth/react";
 import CustomProgressBar from "./ui/ProgressBar/CustomeProgressBar";
 import useSWR from "swr";
 import { customTruncate } from "~/util/customTruncate";
+import { fetcher } from "~/lib/swr-fetcher";
+import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
 
-const urlWithUserId = (userId: string | undefined) => {
+const urlWithUserId = () => {
   return `http://localhost:3000/api/task?getIsOngoing=true`;
-};
-
-export const fetcher = async (input: RequestInfo, init?: RequestInit) => {
-  const res = await fetch(input, init);
-  return res.json();
 };
 
 export const OngoingBattleComponents = () => {
@@ -41,11 +36,9 @@ export const OngoingBattleComponents = () => {
     data: tasks = [],
     error,
     isLoading,
-    
-  } = useSWR<taskForDisplay[], Error>(() => urlWithUserId(userId), fetcher, {
+  } = useSWR<TaskIncludingSubTasks[], Error>(() => urlWithUserId(), fetcher, {
     refreshInterval: 10000,
   });
-  console.log(tasks, "サイドバーのTasks");
 
   useEffect(() => {
     const key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY;
@@ -83,7 +76,7 @@ export const OngoingBattleComponents = () => {
   return (
     <>
       <Heading size="md" px={4} pt={2} pb={1}>
-        Ongoing Battle
+        とりくみ中
       </Heading>
       <Divider pt={2} />
 
@@ -93,19 +86,22 @@ export const OngoingBattleComponents = () => {
       {tasks.length > 0 &&
         tasks.map((task) => (
           <>
-            <Menu placement="right">
+            <Menu key={task.id} placement="top">
               <Tooltip label="コメントを送る" aria-label="A tooltip">
                 <MenuButton
                   as={Button}
                   w={"full"}
                   h={"full"}
                   background={"white"}
+                  zIndex={10}
                 >
                   <HStack pt={2} pb={1} px={4} cursor="pointer">
                     <Avatar size={"md"} src={task.imageData ?? undefined} />
 
                     <Stack width={"full"}>
-                      <Heading  size="xs">{ customTruncate (task.title,9)}</Heading>
+                      <Heading size="xs">
+                        {customTruncate(task.title, 9)}
+                      </Heading>
 
                       <CustomProgressBar
                         w={"full"}

@@ -1,10 +1,4 @@
-import {
-  Box,
-  Drawer,
-  DrawerContent,
-  useColorModeValue,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 import { SidebarContent } from "../Siderbar/Sidebar";
 import { MobileNav } from "~/components/ui/Navigation/Navigation";
 import { useRouter } from "next/router";
@@ -12,10 +6,13 @@ import { motion } from "framer-motion";
 
 const MotionBox = motion(Box);
 
-export default function Layout({ children }) {
+type Props = {
+  children: React.ReactNode;
+};
+
+export default function Layout({ children }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  console.log(router, "routerの値ですね");
 
   // URLに応じて背景色やアニメーションを切り替える
   const isBattleTask = router.pathname.startsWith("/battletask/");
@@ -23,14 +20,12 @@ export default function Layout({ children }) {
   const backgroundStyle = isBattleTask
     ? {
         animate: {
-          
           background: [
             "linear-gradient(45deg, #1A202C, #3182CE)",
             "linear-gradient(45deg, #3182CE, #1A202C)",
             "linear-gradient(45deg, #1A202C, #3182CE)",
           ],
         },
-       
 
         transition: {
           duration: 10,

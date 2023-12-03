@@ -29,7 +29,7 @@ export const RemainingTimeUpdateSchema = z.object({
 // 数値が自然数かどうかをチェックするカスタムバリデーション
 const naturalNumber = z.number().min(1, "1以上の数値を入力してください。");
 
-const minofValidation = z.union([
+const subTaskEstimatedMinutesValidation = z.union([
   // 文字列の場合のバリデーション
   z.string()
     .refine(value => !isNaN(Number(value)), {
@@ -45,17 +45,17 @@ const minofValidation = z.union([
   
 
 export const subTaskValidation = z.object({
-  tasks: z.array(
+  subTasks: z.array(
     z.object({
-      subtask: z.string().nonempty("必須項目です。"),
-      minof: minofValidation,
+      subTaskTitle: z.string().min(1,"必須項目です。"),
+      estimatedMinutes: subTaskEstimatedMinutesValidation,
     })
   ),
 });
 
 
 export const taskValidation = z.object({
-  taskTitle: z.string().nonempty("タスクの名前は必須項目です。"),
-  taskDetail: z.string().optional(),
+  title: z.string().min(1,"タスクの名前は必須項目です。"),
+  detail: z.string().optional(),
 })
 

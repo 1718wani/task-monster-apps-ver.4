@@ -1,9 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { type NextApiRequest, type NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import { prisma } from "~/server/db";
-import { callApiHandleError } from "~/util/callApiHandleError";
-import { generateCustomUserImage } from "~/util/generateCustomUserImage";
-import { uploadAlImageBlobToSupabase } from "~/util/uploadAIImageBlobToSupabase";
+import { prisma } from "~/lib/db";
+import { callApiHandleError } from "~/util/api-related/callApiHandleError";
+import { generateCustomUserImage } from "~/util/generate-images/generateCustomUserImage";
+import { uploadAlImageBlobToSupabase } from "~/util/generate-images/uploadAIImageBlobToSupabase";
+
+type UserEssentialInfo = {
+  customName:string,
+  sex:string,
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +16,7 @@ export default async function handler(
 ) {
   const token = await getToken({ req });
   if (token) {
-    const { customName, sex } = req.body;
+    const { customName, sex } = req.body as UserEssentialInfo;
     const { userId } = req.query;
     const { method } = req;
     try {

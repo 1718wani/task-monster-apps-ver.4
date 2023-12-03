@@ -1,8 +1,6 @@
-import type { subTaskForDisplay } from "~/types/AllTypes";
+import { type SubTask } from "@prisma/client";
 
-export const calculateSubtaskPercentage = (
-  subtasks: subTaskForDisplay[]
-): number => {
+export const calculateSubtaskPercentage = (subtasks: SubTask[]): number => {
   // フィルタリングと集計
   const completedMinutes = subtasks
     .filter((task) => task.isCompleted)

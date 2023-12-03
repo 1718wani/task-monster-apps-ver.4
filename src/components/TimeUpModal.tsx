@@ -8,35 +8,37 @@ import {
   Button,
   Select,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { NextRouter, Router, useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
-import { addTimeOptions } from "~/pages/battletask/[id]";
+import { type Dispatch, type SetStateAction } from "react";
+import { addTimeOptions } from "~/features/battle/consts/addTimeOptions";
 
 type TimeUpModalProps = {
   isOpen: boolean;
   onClose: () => void;
   id: string;
-  totalSeconds: number;
   setRemainingTotalSeconds: Dispatch<SetStateAction<number>>;
+  setProgrammaticNavigation: (optionMinutes: boolean) => void;
   restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void;
   initialSeconds: number | null;
-  handleToAddMinutesSubmit :(event: React.ChangeEvent<HTMLSelectElement>) => void
-  handleToAddMinutesChange: () => void
-  minutesToAdd:number;
+  handleToAddMinutesSubmit: (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+  handleToAddMinutesChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  minutesToAdd: number;
+  backToHome: (optionMinutes: number | null) => Promise<void>;
 };
 
 export const TimeUpModal = ({
   isOpen,
   onClose,
   id,
-  totalSeconds,
   setRemainingTotalSeconds,
   restart,
   initialSeconds,
   handleToAddMinutesSubmit,
   handleToAddMinutesChange,
   minutesToAdd,
+  backToHome,
+  setProgrammaticNavigation,
 }: TimeUpModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
@@ -64,7 +66,14 @@ export const TimeUpModal = ({
           <Button colorScheme="blue" mr={3} onClick={handleToAddMinutesSubmit}>
             {minutesToAdd}分だけ延長する
           </Button>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={async () => {
+              setProgrammaticNavigation(true);
+              await backToHome(10);
+            }}
+          >
             一度諦める
           </Button>
         </ModalFooter>

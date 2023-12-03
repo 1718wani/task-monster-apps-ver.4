@@ -1,6 +1,6 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
 import CustomProgressBar from "./ui/ProgressBar/CustomeProgressBar";
-import { ProgressStatus } from "~/types/AllTypes";
+import { type ProgressStatus } from "~/types/AllTypes";
 
 type TimerOfTaskComponentProps = {
   totalSeconds: number;
@@ -8,8 +8,8 @@ type TimerOfTaskComponentProps = {
   minutes: number;
   hours: number;
   initialAmountSeconds: number;
-  progressValueOfTimer:number;
-  progressStatusOfTimer:ProgressStatus;
+  progressValueOfTimer: number;
+  progressStatusOfTimer: ProgressStatus;
 };
 
 export const TimerOfTaskComponent = ({
@@ -21,13 +21,11 @@ export const TimerOfTaskComponent = ({
   progressValueOfTimer,
   progressStatusOfTimer,
 }: TimerOfTaskComponentProps) => {
-
   return (
     <>
       <VStack>
-      <Box
+        <Box
           w={"full"}
-          
           bg="white" // 任意の色を選択
           pr={10}
           pb={5}
@@ -38,23 +36,28 @@ export const TimerOfTaskComponent = ({
           justifyContent="center"
           rounded={"40"}
         >
-        <Text mb={1} fontSize={"lg"} as="b">
-          あと
-          <Text pl={1} as="i" fontSize="4xl" display="inline" pr={2}>
-            {hours}時間:{minutes}分:{seconds}秒
+          <Text mb={1} fontSize={"lg"} as="b">
+            あと
+            <Text pl={1} as="i" fontSize="4xl" display="inline" pr={2}>
+              {hours}時間:{minutes}分:{seconds}秒
+            </Text>
+            です
           </Text>
-          です
-        </Text>
 
-        <CustomProgressBar
-          width={"full"}
-          size="lg"
-          height="20px"
-          // isCountingDownのときだけ、progressValueOfTimerの値が表示される。
-          value={( ((progressStatusOfTimer === "isCountingUp")? progressValueOfTimer : totalSeconds) / initialAmountSeconds) * 100}
-        />
+          <CustomProgressBar
+            width={"full"}
+            size="lg"
+            height="20px"
+            // isCountingDownのときだけ、progressValueOfTimerの値が表示される。
+            value={
+              ((progressStatusOfTimer === "isCountingUp"
+                ? progressValueOfTimer
+                : totalSeconds) /
+                initialAmountSeconds) *
+              100
+            }
+          />
         </Box>
-    
       </VStack>
     </>
   );

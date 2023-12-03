@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { NextPage } from "next";
-import axios from "axios";
-import { useCookies } from "react-cookie";
-import { string } from "zod";
+import { type NextPage } from "next";
 
 const Login: NextPage = () => {
   const { data: session } = useSession();
-  
-  console.log(session, "sessionの値");
 
-  
+  console.log(session, "sessionの値");
 
   return (
     <>
@@ -23,9 +18,7 @@ const Login: NextPage = () => {
       {!session && (
         <div>
           <p>ログインしていません</p>
-          <button onClick={() => signIn( )}>
-            ログイン
-          </button>
+          <button onClick={() => signIn()}>ログイン</button>
         </div>
       )}
     </>

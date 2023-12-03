@@ -1,30 +1,38 @@
 import { useEffect } from "react";
 import Pusher from "pusher-js";
-import { env } from "process";
 import { ReceiveReactionNotification } from "~/notifications/notifications";
+import toast from "react-hot-toast";
 
-export const NotificationReceiverComponent = ({ receiverUserId }) => {
+type Props = {
+  receiverUserId:string
+}
 
+type NotificationDataType = {
+  senderUserId: string;
+  reaction: string; // または具体的なリアクションの型を定義する
+};
+
+
+export const NotificationReceiverComponent = ({ receiverUserId }:Props) => {
   useEffect(() => {
-      const channelName = "all-users";
-      const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
-        cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
-      });
+    const channelName = "all-users";
+    if (process.env.NEXT_PUBLIC_PUSHER_APP_KEY === undefined || process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER === undefined ){
+      toast.error("不明な通信のエラーが発生しました")
+      return
+    }
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
+    });
 
-      const channel = pusher.subscribe(channelName);
-      console.log(channel, "これがchannel");
-      console.log(receiverUserId, "これがreceiverUserId");
-      channel.bind(`notification-${receiverUserId}`, async (data) => {
-        // 通知を受信通信を受信したら、通知を表示する
+    const channel = pusher.subscribe(channelName);
+    channel.bind(`notification-${receiverUserId}`,  (data:NotificationDataType) => {
+      ReceiveReactionNotification(data.senderUserId, data.reaction);
+    });
 
-        console.log(data, "これがdataが受信された証拠")
-         ReceiveReactionNotification(data.senderUserId, data.reaction);
-      });
-
-      return () => {
-        pusher.unsubscribe(channelName);
-        pusher.disconnect();
-      };
-    }, [receiverUserId]);
+    return () => {
+      pusher.unsubscribe(channelName);
+      pusher.disconnect();
+    };
+  }, [receiverUserId]);
   return <></>;
 };

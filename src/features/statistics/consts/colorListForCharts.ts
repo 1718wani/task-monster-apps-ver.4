@@ -1,0 +1,1 @@
+export const colorListForCharts = ["#38B2AC", "#2C7A7B", "#1D4044"];
