@@ -9,7 +9,9 @@
     "build": "pathpida && next build",
     "lint": "next lint",
     "start": "next start",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
