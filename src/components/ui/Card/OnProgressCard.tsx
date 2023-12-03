@@ -11,15 +11,15 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { EditableComponentProps } from "./EditableCard";
-import { subTaskForDisplay } from "~/types/AllTypes";
+import { type EditableComponentProps } from "./EditableCard";
 import { useRouter } from "next/router";
 import { customTruncate } from "~/util/customTruncate";
+import { type SubTask } from "@prisma/client";
 
 interface onProgressComponentProps extends EditableComponentProps {
   totalMinutes: number;
   remainingMinutes: number;
-  subTasks: subTaskForDisplay[];
+  subTasks: SubTask[];
 }
 
 export const OnProgressCard = ({
@@ -78,7 +78,7 @@ export const OnProgressCard = ({
               px={3}
               fontSize={"xs"}
             >
-              {customTruncate(detail,25)}
+              {customTruncate(detail, 25)}
             </Text>
 
             <Badge colorScheme="yellow" fontSize="0.8em">
@@ -146,9 +146,7 @@ export const OnProgressCard = ({
                   bg: "red.500",
                 }}
                 onClick={async () => {
-                  await router.push(
-                    `/battletask/${id}?imageurl=${imageData}`
-                  );
+                  await router.push(`/battletask/${id}?imageurl=${imageData}`);
                 }}
               >
                 討伐再開

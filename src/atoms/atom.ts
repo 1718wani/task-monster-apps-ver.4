@@ -1,4 +1,4 @@
-import type { Task } from '@prisma/client';
-import { atom } from 'jotai'
+import { atom } from "jotai";
+import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
 
-export const HomeTasksAtom = atom<Task[]>( [])
+export const HomeTasksAtom = atom<TaskIncludingSubTasks[]>([]);

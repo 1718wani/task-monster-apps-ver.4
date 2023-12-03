@@ -90,6 +90,9 @@ async function handlePutRequest(
   const updatedTask = await prisma.task.update({
     where: { id: taskId },
     data: postData.data,
+    include: {
+      subTasks: true,
+    },
   });
   console.log(updatedTask, "成功しました");
   res.status(200).json(updatedTask);

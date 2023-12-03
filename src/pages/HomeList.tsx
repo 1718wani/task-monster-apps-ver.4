@@ -19,8 +19,8 @@ import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import { NotificationReceiverComponent } from "~/components/NotificationReceiverComponent";
 import type { HomeProps } from ".";
-import { type taskForDisplay } from "~/types/AllTypes";
 import { pagesPath } from "~/lib/$path";
+import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
 
 export default function HomeList({ tasks }: HomeProps) {
   const originalDisplayedTasks = tasks;
@@ -30,7 +30,10 @@ export default function HomeList({ tasks }: HomeProps) {
     setActiveTab(tabMap[index]);
   };
 
-  const filterTasks = (tasks: taskForDisplay[], tab: string | undefined) => {
+  const filterTasks = (
+    tasks: TaskIncludingSubTasks[],
+    tab: string | undefined
+  ) => {
     switch (tab) {
       case "未開始":
         return tasks.filter(
@@ -73,7 +76,9 @@ export default function HomeList({ tasks }: HomeProps) {
           <Tab>進行中</Tab>
         </TabList>
       </Tabs>
-      <NotificationReceiverComponent receiverUserId={session?.user.userId} />
+      <NotificationReceiverComponent
+        receiverUserId={session?.user.userId ?? ""}
+      />
       {displayedTasks.length === 0 && (
         <>
           <Center>まずタスクを作成しましょう</Center>

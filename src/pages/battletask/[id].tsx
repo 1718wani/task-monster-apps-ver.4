@@ -1,11 +1,12 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 
 import { getOneTaskFromServerSide } from "~/features/battle/functions/getOneTaskFromServerSide";
-import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubtasks";
+
 import { BattleTaskComponent } from "~/features/battle/page-components/page";
 import { NoTaskComponent } from "~/features/battle/components/NoTaskComponent";
 import { NoSubTasksComponent } from "~/features/battle/components/NoSubTasksComponent";
 import { type TaskIncludingSubTasksWithTotalMinutes } from "~/types/TaskIncludingSubTasksWithTotalMinutes";
+import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
 
 export type forBattleProps = {
   initialTask: TaskIncludingSubTasks | null;
@@ -16,7 +17,6 @@ export const BattleTaskPage: NextPage<forBattleProps> = ({
   initialTask,
   imageurl,
 }) => {
-
   if (initialTask === null) {
     return <NoTaskComponent />;
   } else if (initialTask.totalMinutes === null) {

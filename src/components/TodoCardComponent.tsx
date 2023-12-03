@@ -2,7 +2,7 @@ import EditableCard from "./ui/Card/EditableCard";
 import NotStartedCard from "./ui/Card/NotStartedCard";
 import OnProgressCard from "./ui/Card/OnProgressCard";
 import IsCompletedCard from "./ui/Card/IsCompletedCard";
-import { SubTask } from "@prisma/client";
+import { type SubTask } from "@prisma/client";
 
 interface TodoProps {
   id: number;
@@ -29,8 +29,6 @@ export default function TodoCardComponent({
   remainingMinutes,
   subTasks,
 }: TodoProps) {
-  
-
   const remainingMinutesorZero = remainingMinutes ? remainingMinutes : 0;
 
   if (isEditable) {

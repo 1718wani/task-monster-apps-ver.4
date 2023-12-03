@@ -6,10 +6,10 @@ import { useAtom } from "jotai";
 import { HomeTasksAtom } from "~/atoms/atom";
 
 import { getAllMyTasksFromServerSide } from "~/util/fetchers/getAllMyTasksFromServerSide";
-import type { Task } from "@prisma/client";
+import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
 
 export interface HomeProps {
-  tasks: Task[];
+  tasks: TaskIncludingSubTasks[];
 }
 
 export default function Home({ tasks }: HomeProps) {
