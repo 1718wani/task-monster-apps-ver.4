@@ -2,11 +2,9 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth from "next-auth";
 import type { NextAuthOptions, Session, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import EmailProvider from "next-auth/providers/email";
 import { prisma } from "~/lib/db";
-import type { ClientType, EmailClientType } from "~/types/ClientType";
-import { env } from "process";
-import { JWT } from "next-auth/jwt";
+import type { ClientType } from "~/types/ClientType";
+import { type JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),

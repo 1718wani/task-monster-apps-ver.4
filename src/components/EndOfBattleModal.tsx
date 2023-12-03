@@ -15,6 +15,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { baseUrl } from "~/consts/url-paths";
 import { CompleteBattleSuccess } from "~/notifications/notifications";
 
 type publicApiFormInputs = {
@@ -22,7 +23,12 @@ type publicApiFormInputs = {
   publishedStrategy: string;
 };
 
-export const EndOfBattleModal = ({ isOpen, onClose }) => {
+type modalStatus = {
+  isOpen:boolean,
+  onClose:() => void,
+}
+
+export const EndOfBattleModal = ({ isOpen, onClose }:modalStatus) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -45,7 +51,7 @@ export const EndOfBattleModal = ({ isOpen, onClose }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/tasks/${id}`,
+        `${baseUrl}/api/tasks/${id as string}`,
         {
           isPublished: true,
           isCompleted: true,
@@ -64,7 +70,7 @@ export const EndOfBattleModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,

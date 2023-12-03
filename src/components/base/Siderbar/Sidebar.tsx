@@ -1,16 +1,8 @@
 import {
-  Avatar,
   Box,
-  Button,
   CloseButton,
-  Divider,
   Flex,
-  HStack,
-  Heading,
-  Progress,
-  Stack,
   Text,
-  VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { NavItem } from "~/components/ui/Navigation/Navigation";

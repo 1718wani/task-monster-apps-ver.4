@@ -22,7 +22,7 @@ import CustomProgressBar from "./ui/ProgressBar/CustomeProgressBar";
 import useSWR from "swr";
 import { customTruncate } from "~/util/customTruncate";
 import { fetcher } from "~/lib/swr-fetcher";
-import type { Task } from "@prisma/client";
+import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
 
 const urlWithUserId = () => {
   return `http://localhost:3000/api/task?getIsOngoing=true`;
@@ -36,7 +36,7 @@ export const OngoingBattleComponents = () => {
     data: tasks = [],
     error,
     isLoading,
-  } = useSWR<Task[], Error>(() => urlWithUserId(), fetcher, {
+  } = useSWR<TaskIncludingSubTasks[], Error>(() => urlWithUserId(), fetcher, {
     refreshInterval: 10000,
   });
 

@@ -1,9 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
 import { prisma } from "~/lib/db";
-import { rateLimit } from "~/util/api-related/rate-limit";
-
-const limiter = rateLimit();
 
 export default async function handler(
   req: NextApiRequest,

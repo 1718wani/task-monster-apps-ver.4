@@ -11,13 +11,14 @@ import {
   Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { type Task } from "@prisma/client";
 import axios from "axios";
-import { useAtom, } from "jotai";
-import {Controller, useForm } from "react-hook-form";
+import { useAtom } from "jotai";
+import { Controller, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { HomeTasksAtom } from "~/atoms/atom";
-import type { formInputs } from "~/pages/createtask";
-import type { responseDisplay, taskForDisplay } from "~/types/AllTypes";
+import { type taskUpdateFormInput } from "~/features/task/types/taskUpdateFormInput";
+import type {} from "~/pages/createtask";
 
 export interface EditableComponentProps {
   id: number;
@@ -36,21 +37,6 @@ export const EditableCard = ({
 }: EditableComponentProps) => {
   const [tasksState, setTasksState] = useAtom(HomeTasksAtom);
 
-  const convertToTaskForDisplay = (data: responseDisplay): taskForDisplay => {
-    return {
-      userId: data.userId,
-      id: data.id,
-      title: data.title,
-      detail: data.detail,
-      isCompleted: data.isCompleted,
-      imageData: data.imageData,
-      totalMinutes: data.totalMinutes,
-      remainingMinutes: data.remainingMinutes,
-      subTasks: data.subTasks,
-      // 他にもtaskForDisplay型に必要なフィールドがあればここに追加します
-    };
-  };
-
   const {
     handleSubmit,
     control,
@@ -58,23 +44,21 @@ export const EditableCard = ({
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      taskTitle: title,
-      taskDetail: detail ?? "",
+      title: title,
+      detail: detail ?? "",
     },
   });
-  const onSubmit = async (data: formInputs) => {
+  const onSubmit = async (data: taskUpdateFormInput) => {
     console.log(data, "編集コンポーネントにおける送信データ");
     try {
-      const response = await axios.put(
+      const response = await axios.put<Task>(
         `http://localhost:3000/api/tasks/${id}`,
         {
-          title: data.taskTitle,
-          detail: data.taskDetail,
+          title: data.title,
+          detail: data.detail,
         }
       );
-      const updatedTask: taskForDisplay = convertToTaskForDisplay(
-        response.data as responseDisplay
-      );
+      const updatedTask = response.data;
       setTasksState((prevTasks) =>
         prevTasks.map((task) =>
           task.id === updatedTask.id ? updatedTask : task
@@ -105,11 +89,18 @@ export const EditableCard = ({
       (t) => (
         <Box>
           <span>削除しました</span>
-          <Button textColor={"GrayText"} fontSize={"sm"} fontWeight={2} pl={2} variant={"unstyled"} onClick={() => {
-            toast.dismiss(t.id);
-            setTasksState(tasksState); // 元に戻す
-            clearTimeout(timerId); // タイマーをクリア
-          }}>
+          <Button
+            textColor={"GrayText"}
+            fontSize={"sm"}
+            fontWeight={2}
+            pl={2}
+            variant={"unstyled"}
+            onClick={() => {
+              toast.dismiss(t.id);
+              setTasksState(tasksState); // 元に戻す
+              clearTimeout(timerId); // タイマーをクリア
+            }}
+          >
             削除取り消し
           </Button>
         </Box>
@@ -118,18 +109,18 @@ export const EditableCard = ({
         duration: 4500, // 4.5秒後に消える
       }
     );
-    
+
     // トーストが閉じたときに削除処理を実行する
-  const timerId = setTimeout(() => {
-    deleteTask(taskId)
-      .then(() => {
-        toast.dismiss(toastId); // トーストを閉じる
-      })
-      .catch((error) => {
-        // エラーハンドリングをここに追加
-        console.error("Task deletion failed:", error);
-      });
-  }, 4500);
+    const timerId = setTimeout(() => {
+      deleteTask(taskId)
+        .then(() => {
+          toast.dismiss(toastId); // トーストを閉じる
+        })
+        .catch((error) => {
+          // エラーハンドリングをここに追加
+          console.error("Task deletion failed:", error);
+        });
+    }, 4500);
   };
 
   console.log(tasksState, "これがタスク更新時のステート");
@@ -162,7 +153,7 @@ export const EditableCard = ({
             pt={2}
           >
             <Controller
-              name="taskTitle"
+              name="title"
               control={control}
               render={({ field }) => (
                 <Input
@@ -178,7 +169,7 @@ export const EditableCard = ({
               )}
             />
             <Controller
-              name="taskDetail"
+              name="detail"
               control={control}
               render={({ field }) => (
                 <Textarea
@@ -232,7 +223,7 @@ export const EditableCard = ({
                 aria-label="Delete Task"
                 fontSize="14px"
                 colorScheme="red"
-                onClick={() =>handleTaskDiscard(id)}
+                onClick={() => handleTaskDiscard(id)}
                 icon={<DeleteIcon />}
               />
             </Stack>

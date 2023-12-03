@@ -25,8 +25,6 @@ export const SubTasksFormComponent = (subTasksForm: extendedSubtaskFormProps) =>
     subTasksForm.setValue("subTasks", currentTasks);
   };
 
-  console.log(subTasksForm.getValues("subTasks"),"配列？")
-
   return (
     <>
       <form onSubmit={subTasksForm.handleSubmit(subTasksForm.onSubmit)}>

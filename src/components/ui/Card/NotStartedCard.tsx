@@ -5,14 +5,13 @@ import {
   Flex,
   Heading,
   Image,
-  Progress,
   Stack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { EditableComponentProps } from "./EditableCard";
+import { type EditableComponentProps } from "./EditableCard";
 import { customTruncate } from "~/util/customTruncate";
 
 export const NotStartedCard = ({
@@ -53,7 +52,7 @@ export const NotStartedCard = ({
             pt={2}
           >
             <Heading fontSize={"2xl"} fontFamily={"body"}>
-            {customTruncate(title, 10)}
+              {customTruncate(title, 10)}
             </Heading>
             <Text
               textAlign={"center"}

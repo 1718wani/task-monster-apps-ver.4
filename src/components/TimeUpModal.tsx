@@ -9,13 +9,12 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { type Dispatch, type SetStateAction } from "react";
-import { addTimeOptions } from "~/pages/battletask/[id]";
+import { addTimeOptions } from "~/features/battle/consts/addTimeOptions";
 
 type TimeUpModalProps = {
   isOpen: boolean;
   onClose: () => void;
   id: string;
-  totalSeconds: number;
   setRemainingTotalSeconds: Dispatch<SetStateAction<number>>;
   setProgrammaticNavigation: (optionMinutes: boolean) => void;
   restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void;
@@ -23,7 +22,7 @@ type TimeUpModalProps = {
   handleToAddMinutesSubmit: (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => void;
-  handleToAddMinutesChange: () => void;
+  handleToAddMinutesChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   minutesToAdd: number;
   backToHome: (optionMinutes: number | null) => Promise<void>;
 };
@@ -32,7 +31,6 @@ export const TimeUpModal = ({
   isOpen,
   onClose,
   id,
-  totalSeconds,
   setRemainingTotalSeconds,
   restart,
   initialSeconds,

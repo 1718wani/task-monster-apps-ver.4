@@ -12,7 +12,6 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Text,
@@ -25,20 +24,18 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Select,
-  TagLabel,
   Progress,
   Skeleton,
   Image,
 } from "@chakra-ui/react";
-import { MobileProps, NavItemProps } from "./NavigationType";
+import { type MobileProps, type NavItemProps } from "./NavigationType";
 import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
 
 import { signOut, useSession } from "next-auth/react";
 import useSWR, { mutate } from "swr";
-import { User } from "@prisma/client";
+import { type User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
@@ -48,12 +45,7 @@ import { fetcher } from "~/lib/swr-fetcher";
 
 export const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
-
-    <Box
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
-
+    <Box style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
       <Flex
         align="center"
         p="4"
@@ -122,7 +114,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     return `http://localhost:3000/api/users/${userId}`;
   };
 
-  const { data, error, isLoading } = useSWR<User, Error>(
+  const { data, isLoading } = useSWR<User, Error>(
     () => urlWithUserId(session?.user.userId),
     fetcher
   );
@@ -138,13 +130,15 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
           sex: data.sex,
         }
       );
-      setApiResponse(response.data);
-      // SWRキャッシュの更新
-
-      console.log(response.data, "レスポンスデータ");
+      setApiResponse(response.data as User);
     } catch (error) {
       console.error("ユーザー情報のアップデートに失敗しました", error);
     }
+  };
+
+  const updateUserDataByMutate = async () => {
+    onCustomUserFormClose();
+    await mutate(urlWithUserId(session?.user.userId));
   };
 
   return (
@@ -234,9 +228,8 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                           <Button
                             colorScheme="blue"
                             mr={3}
-                            onClick={() => {
-                              onCustomUserFormClose();
-                              mutate(urlWithUserId(session?.user.userId));
+                            onClick={async () => {
+                              await updateUserDataByMutate();
                             }}
                           >
                             冒険を始める
@@ -325,10 +318,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     </Box>
                   </HStack>
                 </MenuButton>
-                <MenuList
-                  bg={useColorModeValue("white", "gray.900")}
-                  borderColor={useColorModeValue("gray.200", "gray.700")}
-                >
+                <MenuList bg={"white"} borderColor={"gray.200"}>
                   <MenuItem onClick={handleLoguoutBtn}>ログアウト</MenuItem>
                 </MenuList>
               </Menu>
