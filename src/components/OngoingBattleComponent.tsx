@@ -23,9 +23,10 @@ import useSWR from "swr";
 import { customTruncate } from "~/util/customTruncate";
 import { fetcher } from "~/lib/swr-fetcher";
 import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
+import { baseUrl } from "~/consts/url-paths";
 
 const urlWithUserId = () => {
-  return `http://localhost:3000/api/task?getIsOngoing=true`;
+  return `${baseUrl}/api/task?getIsOngoing=true`;
 };
 
 export const OngoingBattleComponents = () => {

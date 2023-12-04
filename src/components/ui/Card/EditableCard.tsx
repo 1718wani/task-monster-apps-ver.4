@@ -52,7 +52,7 @@ export const EditableCard = ({
     console.log(data, "編集コンポーネントにおける送信データ");
     try {
       const response = await axios.put<TaskIncludingSubTasks>(
-        `http://localhost:3000/api/tasks/${id}`,
+        `${baseUrl}/api/tasks/${id}`,
         {
           title: data.title,
           detail: data.detail,
@@ -73,7 +73,7 @@ export const EditableCard = ({
   const deleteTask = async (taskId: number) => {
     // APIを呼び出してデータベースからタスクを削除
     try {
-      await axios.delete(`http://localhost:3000/api/tasks/${taskId}`);
+      await axios.delete(`${baseUrl}/api/tasks/${taskId}`);
       console.log(`Task with id ${taskId} deleted successfully.`);
     } catch (error) {
       console.error("Error deleting task:", error);

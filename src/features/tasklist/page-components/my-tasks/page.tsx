@@ -133,7 +133,7 @@ export const HomeList = ({ tasks }: HomeProps) => {
             <Center p={5}>
               <Button
                 onClick={() =>
-                  signIn(undefined, { callbackUrl: "http://localhost:3000/" })
+                  signIn(undefined, { callbackUrl: `${baseUrl}` })
                 }
                 colorScheme="teal"
               >

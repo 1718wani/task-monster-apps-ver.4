@@ -107,11 +107,11 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   } = useForm<customUserDataInput>();
 
   const handleLoguoutBtn = async () => {
-    await signOut({ callbackUrl: "http://localhost:3000/" });
+    await signOut({ callbackUrl: `${baseUrl}` });
   };
 
   const urlWithUserId = (userId: string | undefined) => {
-    return `http://localhost:3000/api/users/${userId}`;
+    return `${baseUrl}/api/users/${userId}`;
   };
 
   const { data, isLoading } = useSWR<User, Error>(
@@ -123,7 +123,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     console.log(data, "送信されたユーザーデータ");
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/users/${session?.user.userId}`,
+        `${baseUrl}/api/users/${session?.user.userId}`,
         {
           // APIエンドポイントに注意
           customName: data.customName,
