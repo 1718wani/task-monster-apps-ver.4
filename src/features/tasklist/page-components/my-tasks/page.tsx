@@ -19,6 +19,7 @@ import { useState } from "react";
 import { NotificationReceiverComponent } from "~/components/NotificationReceiverComponent";
 import TodoCardComponent from "~/components/TodoCardComponent";
 import CreateNewMonsterButtonComponent from "~/components/ui/Button/Button";
+import { baseUrl } from "~/consts/url-paths";
 import { pagesPath } from "~/lib/$path";
 import { type HomeProps } from "~/types/HomeProps";
 
@@ -132,9 +133,7 @@ export const HomeList = ({ tasks }: HomeProps) => {
             </Text>
             <Center p={5}>
               <Button
-                onClick={() =>
-                  signIn(undefined, { callbackUrl: `${baseUrl}` })
-                }
+                onClick={() => signIn(undefined, { callbackUrl: `${baseUrl}` })}
                 colorScheme="teal"
               >
                 ログイン

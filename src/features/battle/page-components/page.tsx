@@ -321,7 +321,7 @@ export const BattleTaskComponent = ({
                 </Card>
                 <Card
                   w={"70%"}
-                  onClick={() => backToHome(null)} 
+                  onClick={() => backToHome(null)}
                   rounded={"3xl"}
                   _hover={{
                     bg: "gray.700",

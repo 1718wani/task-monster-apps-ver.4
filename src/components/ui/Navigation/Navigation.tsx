@@ -40,6 +40,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import { fetcher } from "~/lib/swr-fetcher";
+import { baseUrl } from "~/consts/url-paths";
 
 // アイコン画像をログインユーザーによって切り替えたい
 
