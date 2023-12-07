@@ -49,5 +49,5 @@ const config = {
   },
 
 };
-
+// わからない
 export default config;
