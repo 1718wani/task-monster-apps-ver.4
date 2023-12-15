@@ -11,14 +11,15 @@ import {
   Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { type Task } from "@prisma/client";
 import axios from "axios";
 import { useAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { HomeTasksAtom } from "~/atoms/atom";
+import { baseUrl } from "~/consts/url-paths";
 import { type taskUpdateFormInput } from "~/features/task/types/taskUpdateFormInput";
 import type {} from "~/pages/createtask";
+import { type TaskIncludingSubTasks } from "~/types/TaskIncludingSubTasks";
 
 export interface EditableComponentProps {
   id: number;
@@ -51,8 +52,8 @@ export const EditableCard = ({
   const onSubmit = async (data: taskUpdateFormInput) => {
     console.log(data, "編集コンポーネントにおける送信データ");
     try {
-      const response = await axios.put<Task>(
-        `http://localhost:3000/api/tasks/${id}`,
+      const response = await axios.put<TaskIncludingSubTasks>(
+        `${baseUrl}/api/tasks/${id}`,
         {
           title: data.title,
           detail: data.detail,
@@ -73,7 +74,7 @@ export const EditableCard = ({
   const deleteTask = async (taskId: number) => {
     // APIを呼び出してデータベースからタスクを削除
     try {
-      await axios.delete(`http://localhost:3000/api/tasks/${taskId}`);
+      await axios.delete(`${baseUrl}/api/tasks/${taskId}`);
       console.log(`Task with id ${taskId} deleted successfully.`);
     } catch (error) {
       console.error("Error deleting task:", error);

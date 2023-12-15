@@ -1,16 +1,12 @@
 import type { GetServerSidePropsContext } from "next";
 
-import HomeList from "./HomeList";
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { HomeTasksAtom } from "~/atoms/atom";
 
 import { getAllMyTasksFromServerSide } from "~/util/fetchers/getAllMyTasksFromServerSide";
-import type { Task } from "@prisma/client";
-
-export interface HomeProps {
-  tasks: Task[];
-}
+import { type HomeProps } from "~/types/HomeProps";
+import { HomeList } from "~/features/tasklist/page-components/my-tasks";
 
 export default function Home({ tasks }: HomeProps) {
   const [tasksState, setTasksState] = useAtom(HomeTasksAtom);

@@ -6,10 +6,12 @@
     "dev": "run-p dev:*",
     "dev:next": "next dev",
     "dev:path": "pathpida --watch",
-    "build": "pathpida && next build",
+    "build": "pathpida && prisma db push && next build",
     "lint": "next lint",
     "start": "next start",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build  && pathpida",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -26,6 +28,7 @@
     "axios": "^1.5.0",
     "boring-avatars": "^1.10.1",
     "computerender": "^0.3.4",
+    "cors": "^2.8.5",
     "eslint-plugin-unused-imports": "^3.0.0",
     "framer-motion": "^10.16.4",
     "jotai": "^2.4.1",

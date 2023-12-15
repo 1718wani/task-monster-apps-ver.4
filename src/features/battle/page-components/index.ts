@@ -1,1 +1,1 @@
-export {BattleTask} from "./page";
+export {BattleTaskComponent} from "./page";

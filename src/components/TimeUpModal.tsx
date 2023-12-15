@@ -18,11 +18,11 @@ type TimeUpModalProps = {
   setRemainingTotalSeconds: Dispatch<SetStateAction<number>>;
   setProgrammaticNavigation: (optionMinutes: boolean) => void;
   restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void;
-  initialSeconds: number | null;
-  handleToAddMinutesSubmit: (
+  initialSeconds: number;
+  handleToAddMinutesSubmit: ()=> void;
+  handleToAddMinutesChange: (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => void;
-  handleToAddMinutesChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   minutesToAdd: number;
   backToHome: (optionMinutes: number | null) => Promise<void>;
 };

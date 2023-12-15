@@ -1,32 +1,27 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider          = "postgresql"
-    url               = env("POSTGRES_PRISMA_URL") // uses connection pooling
-    directUrl         = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-    shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -38,18 +33,19 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 model User {
-    id               String    @id @default(cuid())
-    name             String?
-    customName       String?
-    email            String?   @unique
-    emailVerified    DateTime? 
-    image            String?
-    customImage      String?
-    accounts         Account[]
-    sessions         Session[]
-    tasks            Task[] // ユーザーが持つタスク
-    completedMinutes Int?      @default(0) // タスクの完了時間。Float配列での管理としましたが、詳細によっては別モデルが適切かもしれません。
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  completedMinutes Int?      @default(0)
+  customImage      String?
+  customName       String?
+  accounts         Account[]
+  sessions         Session[]
+  tasks            Task[]
 }
 
 model VerificationToken {
@@ -61,30 +57,29 @@ model VerificationToken {
 }
 
 model Task {
-    id          Int       @id @default(autoincrement())
-    userId      String
-    user        User      @relation(fields: [userId], references: [id])
-    title       String
-    detail      String?
-    category    String?   // カテゴリー。タスクの種類を表す文字列です。
-    isOnGoing   Boolean   @default(false)
-    isCompleted Boolean   @default(false)
-    subTasks    SubTask[] // サブタスクのリスト
-    imageData   String? // 画像データのパスなど。Base64エンコードされたデータやURLを想定しています。
-    isPublished Boolean  @default(false)
-    publishedTitle String?
-    publishedStrategy String?
-    totalMinutes Int? // 想定する工数（分）
-    remainingMinutes Int? // 残りの工数（分）
+  id                Int       @id @default(autoincrement())
+  userId            String
+  title             String
+  detail            String?
+  category          String?
+  isOnGoing         Boolean   @default(false)
+  isCompleted       Boolean   @default(false)
+  imageData         String?
+  isPublished       Boolean   @default(false)
+  publishedTitle    String?
+  publishedStrategy String?
+  totalMinutes      Int?
+  remainingMinutes  Int?
+  subTasks          SubTask[]
+  user              User      @relation(fields: [userId], references: [id])
 }
 
 model SubTask {
-    id               Int     @id @default(autoincrement())
-    taskId           Int
-    task             Task    @relation(fields: [taskId], references: [id])
-    title            String
-    detail           String?
-    isCompleted      Boolean @default(false)
-    estimatedMinutes Int // 想定する工数（時間）
-    
+  id               Int     @id @default(autoincrement())
+  taskId           Int
+  title            String
+  detail           String?
+  isCompleted      Boolean @default(false)
+  estimatedMinutes Int
+  task             Task    @relation(fields: [taskId], references: [id])
 }
