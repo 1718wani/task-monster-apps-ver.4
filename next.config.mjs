@@ -29,19 +29,17 @@ const config = {
           {
             // CORSを許可するオリジン
             key: "Access-Control-Allow-Origin",
-            // すべてのオリジンを許可するなら * (アスタリスク)
-            // ただセキュリティ的にはよろしくないので注意
             value: "https://monster-todo-app-1718wani.vercel.app/",
           },
           {
             // 許可するメソッド
             key: "Access-Control-Allow-Methods",
-            value: "GET,OPTIONS,POST",
+            value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
           },
           {
             // 許可するリクエストヘッダ
             key: "Access-Control-Allow-Headers",
-            value: "Content-Type",
+            value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
           },
         ],
       },
