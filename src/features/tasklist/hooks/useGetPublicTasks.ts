@@ -1,5 +1,6 @@
 import type { Task } from "@prisma/client";
 import useSWR from "swr";
+import { baseUrl } from "~/consts/url-paths";
 import { fetcher } from "~/lib/swr-fetcher";
 
 export const useGetPublicTasksWithSwr = (page?: number, limit?: number) => {
@@ -8,7 +9,7 @@ export const useGetPublicTasksWithSwr = (page?: number, limit?: number) => {
     error,
     isLoading,
   } = useSWR<Task[], Error>(
-    () => `api/publicTasks/?page=${page}&limit=${limit}`,
+    () => `${baseUrl}/api/publicTasks/?page=${page}&limit=${limit}`,
     fetcher
   );
 
